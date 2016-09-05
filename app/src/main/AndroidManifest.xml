@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="ansteph.com.beecabfordrivers">
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality. 
+    -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <application
+        android:name=".app.GlobalRetainer"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Landing"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.registration.Registration"
+            android:label="@string/title_activity_registration"
+            android:parentActivityName=".view.registration.Login"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ansteph.com.beecabfordrivers.view.registration.Login"/>
+        </activity>
+        <activity
+            android:name=".view.registration.Login"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key"/>
+
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps">
+        </activity>
+        <activity
+            android:name=".view.CabResponder.JobsBoard"
+            android:label="@string/title_activity_jobs_board"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <service android:name=".service.BeeCabFbMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service android:name=".service.BeeCabFbInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".view.CabResponder.PickupBoard"
+            android:label="@string/title_activity_pickup_board"
+            android:parentActivityName=".view.CabResponder.JobsBoard"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard"/>
+        </activity>
+        <activity
+            android:name=".view.CabResponder.JobDetails"
+            android:label="@string/title_activity_job_details"
+            android:parentActivityName=".view.CabResponder.PickupBoard"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ansteph.com.beecabfordrivers.view.CabResponder.PickupBoard"/>
+        </activity>
+        <activity android:name=".testzone.UploadService">
+        </activity>
+        <activity android:name=".testzone.GetImages">
+        </activity>
+        <activity android:name=".view.extraAction.ActionList">
+        </activity>
+        <activity
+            android:name=".view.extraAction.Profile"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".view.extraAction.ActionList"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ansteph.com.beecabfordrivers.view.extraAction.ActionList"/>
+        </activity>
+    </application>
+
+</manifest>

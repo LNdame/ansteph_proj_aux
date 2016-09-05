@@ -1,0 +1,151 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="ansteph.com.beecabfordrivers.view.CabResponder.BoardLangdingFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ViewAnimator
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/viewAnimator"
+            android:layout_gravity="center_horizontal|top"
+            android:background="@color/colorAccent" >
+
+            <ImageView
+                android:id="@+id/imgadvplace"
+                android:src="@drawable/img1934x"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ImageView>
+
+
+
+            <ImageView
+                android:id="@+id/imgadvplace2"
+                android:src="@drawable/img2934x"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </ImageView>
+
+            <ImageView
+            android:id="@+id/imgadvplace3"
+            android:src="@drawable/img2934x"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"> </ImageView>
+        </ViewAnimator>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Previous"
+                android:visibility="gone"
+                android:background="@color/colorAccent"
+                android:id="@+id/btnPrevious"
+                android:layout_gravity="center" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:layout_margin="20dp"
+                android:visibility="gone"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:background="@color/colorAccent"
+                android:id="@+id/btnNext"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Pickup a Client"
+            android:layout_margin="20dp"
+
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:background="@color/colorAccent"
+            android:id="@+id/btnCaller"
+            android:layout_gravity="center" />
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal|bottom"
+            >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_weight="1">
+
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:layout_gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="Pending"/>
+
+                </RelativeLayout>
+                <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listViewPending"
+                    android:layout_gravity="center_horizontal|bottom" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_weight="1">
+
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:layout_gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="Assigned"/>
+
+                </RelativeLayout>
+                <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/listViewAssigned"
+                    android:layout_gravity="center_horizontal|bottom" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

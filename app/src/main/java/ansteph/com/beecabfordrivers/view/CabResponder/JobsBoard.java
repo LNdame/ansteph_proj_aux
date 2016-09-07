@@ -25,6 +25,7 @@ import ansteph.com.beecabfordrivers.helper.SessionManager;
 import ansteph.com.beecabfordrivers.model.Driver;
 import ansteph.com.beecabfordrivers.service.FirebaseServerRegistration;
 import ansteph.com.beecabfordrivers.testzone.GetImages;
+import ansteph.com.beecabfordrivers.testzone.JoRPickupBoard;
 import ansteph.com.beecabfordrivers.testzone.UploadService;
 import ansteph.com.beecabfordrivers.view.extraAction.ActionList;
 
@@ -118,8 +119,8 @@ public class JobsBoard extends AppCompatActivity {
             sessionManager.logoutUser();
         }
         if (id == R.id.action_profile) {
-           // Intent i = new Intent(getApplicationContext(), EditProfile.class);
-            //startActivity(i);
+           Intent i = new Intent(getApplicationContext(), JoRPickupBoard.class);
+           startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);

@@ -108,6 +108,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ansteph.com.beecabfordrivers.view.extraAction.ActionList"/>
         </activity>
+        <activity
+            android:name=".testzone.JoRPickupBoard"
+            android:label="@string/title_activity_jo_rpickup_board"
+            android:parentActivityName=".view.CabResponder.JobsBoard"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard"/>
+        </activity>
     </application>
 
 </manifest>

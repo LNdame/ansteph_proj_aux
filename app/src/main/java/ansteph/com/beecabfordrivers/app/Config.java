@@ -10,7 +10,8 @@ public class Config {
     /****************************************************---Domain---*************************************************************/
 
    // private static String DOMAIN="http://10.0.0.8:8888/taxi/";
-    private static String DOMAIN="http://10.11.0.86:8888/taxi/";
+  //  private static String DOMAIN="http://10.11.0.86:8888/taxi/";
+     private static String DOMAIN="http://www.beecab.co.za/";
 
     /****************************************************---Route---*************************************************************/
 
@@ -80,7 +81,7 @@ public class Config {
     public static final String ERROR_RESPONSE= "error";
     public static final String MSG_RESPONSE= "message";
 
-    public static final String DATA_URL = "http://www.simplifiedcodingreaders.16mb.com/superheroes.php";
+
 
     //Tag values to read from json
     public static final String TAG_IMAGE_URL = "car_picture_url";

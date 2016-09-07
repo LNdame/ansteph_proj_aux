@@ -1,5 +1,6 @@
 package ansteph.com.beecabfordrivers.view.CabResponder;
 
+import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -175,16 +177,23 @@ public class PickupBoard extends AppCompatActivity {
 
     public void retrieveJobs () throws JSONException{
 
+    // Displaying the progress dialog
+       final ProgressDialog loading = ProgressDialog.show(this, "Getting Jobs","Just retrieving the jobs", false, false);
+
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Config.RETRIEVE_JOBS_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
+
                         try{
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean error = jsonResponse.getBoolean(Config.ERROR_RESPONSE);
                            // String serverMsg = jsonResponse.getString(Config.MSG_RESPONSE);
                             if(!error){
-
+                                loading.dismiss();
+                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
                                 //JSONObject jobsList = jsonResponse.getJSONObject("jobs");
                                 JSONArray jobsjsonArray = jsonResponse.getJSONArray("jobs");
 
@@ -193,13 +202,15 @@ public class PickupBoard extends AppCompatActivity {
                             }
                         }catch (JSONException e)
                         {
+                            loading.dismiss();
                             e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                loading.dismiss();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
             }
         }){};
 

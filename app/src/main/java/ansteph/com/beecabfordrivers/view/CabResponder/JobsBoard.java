@@ -2,8 +2,6 @@ package ansteph.com.beecabfordrivers.view.CabResponder;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -24,9 +21,6 @@ import ansteph.com.beecabfordrivers.app.GlobalRetainer;
 import ansteph.com.beecabfordrivers.helper.SessionManager;
 import ansteph.com.beecabfordrivers.model.Driver;
 import ansteph.com.beecabfordrivers.service.FirebaseServerRegistration;
-import ansteph.com.beecabfordrivers.testzone.GetImages;
-import ansteph.com.beecabfordrivers.testzone.JoRPickupBoard;
-import ansteph.com.beecabfordrivers.testzone.UploadService;
 import ansteph.com.beecabfordrivers.view.extraAction.ActionList;
 
 public class JobsBoard extends AppCompatActivity {

@@ -109,7 +109,7 @@
                 android:value="ansteph.com.beecabfordrivers.view.extraAction.ActionList"/>
         </activity>
         <activity
-            android:name=".testzone.JoRPickupBoard"
+            android:name=".view.CabResponder.JoRPickupBoard"
             android:label="@string/title_activity_jo_rpickup_board"
             android:parentActivityName=".view.CabResponder.JobsBoard"
             android:theme="@style/AppTheme.NoActionBar">

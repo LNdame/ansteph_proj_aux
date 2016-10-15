@@ -9,9 +9,9 @@ public class Config {
 
     /****************************************************---Domain---*************************************************************/
 
-   // private static String DOMAIN="http://10.0.0.8:8888/taxi/";
+   private static String DOMAIN="http://10.0.0.5:8888/taxi/";
   //  private static String DOMAIN="http://10.11.0.86:8888/taxi/";
-     private static String DOMAIN="http://www.beecab.co.za/";
+     //private static String DOMAIN="http://www.beecab.co.za/";
 
     /****************************************************---Route---*************************************************************/
 
@@ -69,6 +69,7 @@ public class Config {
     public static final String KEY_YEAR = "year";
     public static final String KEY_API = "apikey";
     public static final String KEY_PWD = "password";
+    public static final String KEY_STATUS = "status";
 
     //Keys to send username, password, phone and otp
 

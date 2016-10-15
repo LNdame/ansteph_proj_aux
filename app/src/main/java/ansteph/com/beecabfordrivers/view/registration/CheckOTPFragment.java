@@ -3,6 +3,7 @@ package ansteph.com.beecabfordrivers.view.registration;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -123,6 +124,11 @@ public class CheckOTPFragment extends Fragment {
     public void onResume() {
         super.onResume();
         setTitle("Activate User");
+    }
+
+    public void gotoLogin()
+    {
+        startActivity(new Intent(getActivity(), Login.class));
     }
 
     public void gotoProfile()

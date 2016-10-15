@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import ansteph.com.beecabfordrivers.R;
 
@@ -33,9 +34,9 @@ public class RegistrationTypeFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_registration_type, container, false);
 
-        Button btnTypBoy = (Button) rootView.findViewById(R.id.btnTypeClient);
+        ImageButton btnTypCompany = (ImageButton) rootView.findViewById(R.id.btnTypeCompany);
 
-        btnTypBoy.setOnClickListener(new View.OnClickListener() {
+        btnTypCompany.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Fragment fragment = new RegistrationFragment();
@@ -51,9 +52,9 @@ public class RegistrationTypeFragment extends Fragment {
             }
         });
 
-        Button btnTypGirl = (Button) rootView.findViewById(R.id.btnTypeDriver);
+        ImageButton btnTypFreelancer = (ImageButton) rootView.findViewById(R.id.btnTypeFreelancer);
 
-        btnTypGirl.setOnClickListener(new View.OnClickListener() {
+        btnTypFreelancer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Fragment fragment = new RegistrationFragment();

@@ -117,6 +117,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard"/>
         </activity>
+        <activity android:name=".testzone.SavePicInternal">
+        </activity>
+        <activity
+            android:name=".view.profile.UpdatePassword"
+            android:label="@string/title_activity_update_password"
+            android:parentActivityName=".view.extraAction.Profile"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ansteph.com.beecabfordrivers.view.extraAction.Profile"/>
+        </activity>
     </application>
 
 </manifest>

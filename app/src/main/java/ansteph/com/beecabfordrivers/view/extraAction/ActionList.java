@@ -11,6 +11,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import ansteph.com.beecabfordrivers.R;
+import ansteph.com.beecabfordrivers.testzone.SavePicInternal;
 import ansteph.com.beecabfordrivers.testzone.UploadService;
 
 public class ActionList extends AppCompatActivity {
@@ -53,7 +54,7 @@ public class ActionList extends AppCompatActivity {
                     case 1 :
                     case 2:
                     case 3 :
-                    case 4 :Intent j = new Intent(getApplicationContext(), UploadService.class);
+                    case 4 :Intent j = new Intent(getApplicationContext(), SavePicInternal.class);
                         startActivity(j); break;
                     default:
                 }

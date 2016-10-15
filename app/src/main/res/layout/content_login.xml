@@ -48,6 +48,7 @@
             android:textColorHint="@color/colorAccent"
             android:inputType="phone"
             android:hint="@string/hint_mobile"
+            android:drawableLeft="@mipmap/ic_phone"
             />
     </android.support.design.widget.TextInputLayout>
 
@@ -65,7 +66,8 @@
             android:textColor="@color/colorAccent"
             android:textColorHint="@color/colorAccent"
             android:inputType="textPassword"
-            android:hint="@string/hint_password" />
+            android:hint="@string/hint_password"
+            android:drawableLeft="@mipmap/ic_lockpin"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button android:id="@+id/btn_signup"

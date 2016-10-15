@@ -5,7 +5,7 @@
               android:orientation="vertical"
               android:weightSum="4"
               android:background="@color/colorPrimary"
-             tools:context="ansteph.com.beecab.view.registration.RegistrationTypeFragment">
+             >
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -15,23 +15,29 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnTypeClient"
-            android:layout_width="wrap_content"
+        <ImageButton
+            android:id="@+id/btnTypeCompany"
+            android:layout_width="160dp"
             android:layout_height="match_parent"
+            android:background="@null"
             android:padding="25dp"
             android:layout_margin="25dp"
-            android:textColor="@color/textColorPrimary"
-            android:text="Boy"/>
+            android:scaleType="fitXY"
+            android:src="@drawable/mansil"
 
-        <Button
-            android:id="@+id/btnTypeDriver"
-            android:layout_width="wrap_content"
+            />
+
+        <ImageButton
+            android:id="@+id/btnTypeFreelancer"
+            android:layout_width="160dp"
             android:layout_height="match_parent"
+            android:background="@null"
             android:padding="25dp"
             android:layout_margin="25dp"
-            android:textColor="@color/textColorPrimary"
-            android:text="Girl"/>
+            android:scaleType="fitXY"
+            android:src="@drawable/womansil"
+
+           />
 
     </LinearLayout>
 

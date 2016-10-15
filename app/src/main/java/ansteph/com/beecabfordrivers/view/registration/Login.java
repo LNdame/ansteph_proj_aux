@@ -30,6 +30,7 @@ import ansteph.com.beecabfordrivers.app.GlobalRetainer;
 import ansteph.com.beecabfordrivers.helper.SessionManager;
 import ansteph.com.beecabfordrivers.model.Driver;
 import ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard;
+import ansteph.com.beecabfordrivers.view.profile.UpdatePassword;
 
 //import ansteph.com.beecabfordrivers.view.callacab.CabCaller;
 
@@ -134,20 +135,34 @@ public class Login extends AppCompatActivity {
                                // String id, String name, String companyname, String email, String mobile, String licence, String year, String apikey, int companyid
                                 Driver dr = new Driver(profile.getString(Config.KEY_ID),profile.getString(Config.KEY_NAME),profile.getString(Config.KEY_COMNAME),
                                         profile.getString(Config.KEY_EMAIL), profile.getString(Config.KEY_MOBILE), profile.getString(Config.KEY_LICENSE),
-                                        profile.getString(Config.KEY_YEAR), profile.getString(Config.KEY_API),  profile.getInt(Config.KEY_COMPANY_ID));
+                                        profile.getString(Config.KEY_YEAR), profile.getString(Config.KEY_API));
+
+                                int status = profile.getInt(Config.KEY_STATUS);
 
                                 mGlobalretainer.set_grDriver(dr);
                                 if(mGlobalretainer.get_grDriver()!=null){
-                                    sessionManager.createLoginSession(dr.getId(),dr.getName(), dr.getEmail(),dr.getMobile(),dr.getApikey(), String.valueOf(dr.getCompanyid()) ,dr.getCompanyname(),dr.getLicence(), dr.getYear());
+
+                                    if((pwd.substring(0,5)).equals("prov_")){
+                                        Intent intent = new Intent(getApplicationContext(), UpdatePassword.class);
+                                        startActivity(intent);
+                                    }
+                                    else if(status == 1){
+                                        // launch the call cab activity the main landing page
+                                        Intent intent = new Intent(getApplicationContext(), JobsBoard.class);
+                                        startActivity(intent);
+
+                                        sessionManager.createLoginSession(dr.getId(),dr.getName(), dr.getEmail(),dr.getMobile(),dr.getApikey(), String.valueOf(dr.getCompanyid()) ,dr.getCompanyname(),dr.getLicence(), dr.getYear());
 
 
 
-                                                         // (String id,String name, String email, String mobile , String apikey,String comid,String comname, String licence, String year)
+                                    }else if (status == 0){
+                                        Intent intent = new Intent(getApplicationContext(), Registration.class);
+                                        intent.putExtra("OTP", 0);
+                                        startActivity(intent);
+                                    }
 
 
-                                    // launch the call cab activity the main landing page
-                                    Intent intent = new Intent(getApplicationContext(), JobsBoard.class);
-                                    startActivity(intent);
+
                                 }
                             }else{
                                 Toast.makeText(getApplicationContext(), serverMsg, Toast.LENGTH_LONG).show();
@@ -201,16 +216,3 @@ public class Login extends AppCompatActivity {
 
 
 }
-/*
-*  public static final String KEY_ID = "id";
-                                public static final String KEY_NAME = "name";
-                                public static final String KEY_EMAIL = "email";
-                                public static final String KEY_COMNAME = "company_name";
-                                public static final String KEY_MOBILE = "mobile";
-
-                                public static final String KEY_CARMODEL = "carmodel";
-                                public static final String KEY_NUMPLATE = "numplate";
-                                public static final String KEY_LICENSE = "licence";
-                                public static final String KEY_YEAR = "year";
-                                public static final String KEY_PWD = "password";
-* */

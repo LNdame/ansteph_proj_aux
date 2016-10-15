@@ -36,6 +36,7 @@ public class SessionManager {
     private static final String KEY_IS_WAITING_FOR_SMS = "IsWaitingForSms";
     private static final String KEY_MOBILE_NUMBER = "mobile_number";
     private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
+    private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
 
     public static final String KEY_NAME = "name";
     public static final String KEY_EMAIL = "email";
@@ -49,6 +50,11 @@ public class SessionManager {
 
     public static final String KEY_LICENSE = "licence";
     public static final String KEY_YEAR = "year";
+
+
+    public static final String KEY_PROFILEPICPATH = "profilepicpath";
+    public static final String KEY_PROFILEUSERNAME= "username";
+
 
 
 
@@ -181,6 +187,40 @@ public class SessionManager {
     return preferences.getBoolean(KEY_IS_LOGGED_IN,false);
     }
 
+
+
+    public void setFirstTimeLaunch(boolean isFirstTime) {
+        editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime);
+        editor.commit();
+    }
+
+    public boolean isFirstTimeLaunch() {
+        return preferences.getBoolean(IS_FIRST_TIME_LAUNCH, true);
+    }
+
+    public void setProfilePath( String path)
+    {
+        editor.putString(KEY_PROFILEPICPATH, path);
+        editor.commit();
+    }
+
+    public String getProfilePath()
+    {
+        return preferences.getString(KEY_PROFILEPICPATH,null);
+    }
+
+
+
+    public void setProfileUsername( String username)
+    {
+        editor.putString(KEY_PROFILEUSERNAME, username);
+        editor.commit();
+    }
+
+    public String getProfileUsername()
+    {
+        return preferences.getString(KEY_PROFILEUSERNAME,null);
+    }
 
 
     }

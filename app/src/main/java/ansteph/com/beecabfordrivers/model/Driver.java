@@ -43,6 +43,18 @@ public class Driver {
         this.companyid = companyid;
     }
 
+    public Driver(String id, String name, String companyname, String email, String mobile, String licence, String year, String apikey) {
+        this.id = id;
+        this.name = name;
+        this.companyname = companyname;
+        this.email = email;
+        this.mobile = mobile;
+
+        this.licence = licence;
+        this.year = year;
+        this.apikey = apikey;
+
+    }
     //  $id, $name,$company_name, $email,  $mobile, $licence, $year, $pwd_hash, $apikey)
 
 

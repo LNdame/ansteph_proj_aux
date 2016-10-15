@@ -2,9 +2,12 @@ package ansteph.com.beecabfordrivers.view.CabResponder;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,6 +24,8 @@ import ansteph.com.beecabfordrivers.app.GlobalRetainer;
 import ansteph.com.beecabfordrivers.helper.SessionManager;
 import ansteph.com.beecabfordrivers.model.Driver;
 import ansteph.com.beecabfordrivers.service.FirebaseServerRegistration;
+import ansteph.com.beecabfordrivers.view.CabResponder.jobfragments.AnsweredFragment;
+import ansteph.com.beecabfordrivers.view.CabResponder.jobfragments.AssignedFragment;
 import ansteph.com.beecabfordrivers.view.extraAction.ActionList;
 
 public class JobsBoard extends AppCompatActivity {
@@ -29,6 +34,11 @@ public class JobsBoard extends AppCompatActivity {
 
     GlobalRetainer mGlobalRetainer;
 
+
+    FragmentPagerAdapter adapterViewPager;
+    ViewPager viewPager;
+
+    TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +56,6 @@ public class JobsBoard extends AppCompatActivity {
         mGlobalRetainer.set_grDriver(new Driver(user.get(SessionManager.KEY_ID),user.get(SessionManager.KEY_NAME),user.get(SessionManager.KEY_COMNAME),user.get(SessionManager.KEY_EMAIL)
                 ,user.get(SessionManager.KEY_MOBILE),user.get(SessionManager.KEY_LICENSE),user.get(SessionManager.KEY_YEAR),user.get(SessionManager.KEY_APIKEY),Integer.parseInt(user.get(SessionManager.KEY_COMPANY_ID)) ));
 
-
         //Try to register the firebase messaging token
         FirebaseMessaging.getInstance().subscribeToTopic("BeeCab");
         String token= FirebaseInstanceId.getInstance().getToken();
@@ -62,14 +71,19 @@ public class JobsBoard extends AppCompatActivity {
 
         }
 
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        adapterViewPager = new JobCatAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapterViewPager);
 
+        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
-        Fragment fragment = new BoardLangdingFragment();
+      /*  Fragment fragment = new BoardLangdingFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
                 .addToBackStack(BoardLangdingFragment.TAG);
         fragmentTransaction.replace(R.id.container_body, fragment,BoardLangdingFragment.TAG);
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
     }
 
 
@@ -120,5 +134,38 @@ public class JobsBoard extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
+    public static class JobCatAdapter extends FragmentPagerAdapter{
+
+        private static int NUM_ITEMS = 2;
+        private String tabTitles[] = new String[]{"Answered Job", "Assigned Job"};
+
+        public JobCatAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position)
+            {
+                case 0: return AnsweredFragment.newInstance("Page # 1","op");
+                case 1: return AssignedFragment.newInstance("Page # 2","op");
+                default: return null;
+            }
+        }
+
+
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabTitles[position] ;
+        }
+    }
 
 }

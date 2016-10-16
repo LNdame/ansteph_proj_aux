@@ -5,9 +5,11 @@
              tools:context="ansteph.com.beecabfordrivers.view.CabResponder.jobfragments.AnsweredFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Answered Fragment"/>
+        android:id="@+id/listViewPending"
+        android:layout_gravity="center_horizontal|bottom" />
+
 
 </FrameLayout>

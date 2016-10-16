@@ -78,7 +78,7 @@
     <string name="title_activity_job_details">Job Details</string>
     <string name="google_direction_api_key">AIzaSyA6ukiOzzaLCeoxmumYhbB5s0ksvpjWaBU</string>
     <string name="title_activity_profile">Profile</string>
-    <string name="title_activity_jo_rpickup_board">JoRPickupBoard</string>
+    <string name="title_activity_jo_rpickup_board">Pickup Board</string>
     <string name="title_activity_update_password">UpdatePassword</string>
 
 

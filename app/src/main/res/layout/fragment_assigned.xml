@@ -5,9 +5,10 @@
              tools:context="ansteph.com.beecabfordrivers.view.CabResponder.jobfragments.AssignedFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Assigned Fragment"/>
+        android:id="@+id/listViewAssigned"
+        android:layout_gravity="center_horizontal|bottom" />
 
 </FrameLayout>

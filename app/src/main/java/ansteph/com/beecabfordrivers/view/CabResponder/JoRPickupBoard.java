@@ -3,23 +3,29 @@ package ansteph.com.beecabfordrivers.view.CabResponder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -30,10 +36,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ansteph.com.beecabfordrivers.R;
 import ansteph.com.beecabfordrivers.app.Config;
+import ansteph.com.beecabfordrivers.app.GlobalRetainer;
 import ansteph.com.beecabfordrivers.card.Card;
 import ansteph.com.beecabfordrivers.card.CardProvider;
 import ansteph.com.beecabfordrivers.card.MaterialListView;
@@ -50,6 +59,7 @@ public class JoRPickupBoard extends AppCompatActivity {
     private Context mContext;
     private MaterialListView mListView;
     private List<JourneyRequest> jobList;
+    GlobalRetainer mGlobalRetainer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,17 +67,11 @@ public class JoRPickupBoard extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         jobList = new ArrayList<>();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        mGlobalRetainer =(GlobalRetainer) getApplicationContext();
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        initCollasingToolbar();
         // Save a reference to the context
         mContext = this;
 
@@ -117,6 +121,44 @@ public class JoRPickupBoard extends AppCompatActivity {
         });
 
 
+
+        try {
+            Glide.with(this).load(R.drawable.port_elizabeth).into((ImageView) findViewById(R.id.backdrop));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    private void initCollasingToolbar()
+    {
+        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+
+        collapsingToolbarLayout.setTitle(" ");
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+        appBarLayout.setExpanded(true);
+
+        // hiding & showing the title when toolbar expanded & collapsed
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if(scrollRange==-1){
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+
+                if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbarLayout.setTitle(getString(R.string.title_activity_jo_rpickup_board));
+                    isShow = true;
+                }else if (isShow){
+                    collapsingToolbarLayout.setTitle(" ");
+                    isShow = false;
+                }
+            }
+        });
     }
 
 
@@ -186,7 +228,19 @@ public class JoRPickupBoard extends AppCompatActivity {
 
                 .addAction(R.id.right_text_button, new TextViewAction(this)
                         .setText("Accept")
-                        .setTextResourceColor(R.color.orange_button))
+                        .setTextResourceColor(R.color.orange_button).setListener(new OnActionClickListener() {
+                            @Override
+                            public void onActionClicked(View view, Card card) {
+                             // TODO: 16/10/2016 add the action to take after direct accept
+                                try {
+                                    createJobResponse(j);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        })
+                )
 
                 .endConfig()
                 .build();
@@ -280,7 +334,7 @@ public class JoRPickupBoard extends AppCompatActivity {
                             // String serverMsg = jsonResponse.getString(Config.MSG_RESPONSE);
                             if(!error){
                                 loading.dismiss();
-                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+
                                 //JSONObject jobsList = jsonResponse.getJSONObject("jobs");
                                 JSONArray jobsjsonArray = jsonResponse.getJSONArray("jobs");
 
@@ -304,6 +358,65 @@ public class JoRPickupBoard extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
     }
+
+
+    public void createJobResponse (final JourneyRequest j) throws JSONException {
+
+        // Displaying the progress dialog
+        final ProgressDialog loading = ProgressDialog.show(this, "Sending answer","Just wait while we submit your answer", false, false);
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.CREATE_RESPONSE_JOB_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        try{
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean error = jsonResponse.getBoolean(Config.ERROR_RESPONSE);
+                            String serverMsg = jsonResponse.getString(Config.MSG_RESPONSE);
+                            if(!error){
+                                loading.dismiss();
+                                Toast.makeText(getApplicationContext(), serverMsg, Toast.LENGTH_LONG).show();
+
+                            }
+                        }catch (JSONException e)
+                        {
+                            loading.dismiss();
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+
+                params.put(Config.KEY_PRO_FARE, j.getProposedFare());
+                params.put(Config.KEY_COUNT_OFFER, j.getProposedFare());
+                params.put(Config.KEY_CALL_ALL, (j.isCallAllowed()==true)?"1":"0");
+                params.put(Config.KEY_JRID, String.valueOf(j.getId()) );
+                params.put(Config.KEY_TDID, mGlobalRetainer.get_grDriver().getId());
+
+                return params;
+
+            }
+        };
+        RequestQueue requestQueue =  Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+
+    }
+
+
+
+
+
 
 
 }

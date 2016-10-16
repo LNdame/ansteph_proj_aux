@@ -24,17 +24,20 @@ public class Config {
     public static final String REGISTER_FB =DOMAIN+"v1/register_fbNot";
 
     public static final String CREATE_JOB_URL =DOMAIN+"v1/createjob";
+    public static final String CREATE_RESPONSE_JOB_URL =DOMAIN+"v1/createjobresponse";
 
     public static final String UPLOAD_URL =DOMAIN+"v1/save_driver_profile_image";
     public static final String IMAGES_URL = DOMAIN+"v1/retrieveallimage";
     public static final String UPLOAD_URL_image =DOMAIN+"v1/save_driver_profile";
     public static final String RETRIEVE_USER_IMAGE_URL = DOMAIN+"v1/retrieve_dr_profile_image/%s";
     public static final String RETRIEVE_USER_PROFILE_URL = DOMAIN+"v1/retrieve_dr_profile/%s";
+ public static final String RETRIEVE_PENDING_JOUR_URL = DOMAIN+"v1/retrieve_pending_jour_response/%s";
+    public static final String RETRIEVE_ASSIGN_JOUR_URL = DOMAIN+"v1/retrieve_accepted_jour_response/%s";
 
 
     /****************************************************---SMS FLAGS---*************************************************************/
 
-    // SMS provider identification
+    // SMS provider identification  retrieve_pending_jour_response/:tdID'
     // It should match with your SMS gateway origin
     // You can use  MSGIND, TESTER and ALERTS as sender ID
     // If you want custom sender Id, approve MSG91 to get one
@@ -52,6 +55,7 @@ public class Config {
     /****************************************************---Params Keys---*************************************************************/
 
 
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 
 
@@ -93,7 +97,14 @@ public class Config {
     public static final String KEY_PRO_ID= "taxi_driver_id";
     public static final String KEY_CURRENT_CITY = "current_city";
     public static final String KEY_PRO_RATING = "profile_rating";
-    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+
+    public static final String KEY_PRO_FARE = "proposedFare";
+    public static final String KEY_COUNT_OFFER = "counterOffer";
+    public static final String KEY_CALL_ALL = "callAllowed";
+    public static final String KEY_JRID = "jrID";
+    public static final String KEY_TDID = "tdID";
+
 
 
 }

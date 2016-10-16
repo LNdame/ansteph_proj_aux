@@ -20,7 +20,7 @@ public class GlobalRetainer extends Application {
 
 
     public ArrayList<JourneyRequest > _grPendingJobs = new ArrayList<>();
-
+    public ArrayList<JourneyRequest > _grAssignedJobs = new ArrayList<>();
     public Driver _grDriver = new Driver();   //(only one per login)
 
 
@@ -41,8 +41,21 @@ public class GlobalRetainer extends Application {
         this._grPendingJobs = _grPendingJobs;
     }
 
+    public ArrayList<JourneyRequest> get_grAssignedJobs() {
+        return _grAssignedJobs;
+    }
+
+    public void set_grAssignedJobs(ArrayList<JourneyRequest> _grAssignedJobs) {
+        this._grAssignedJobs = _grAssignedJobs;
+    }
+
     public void addPendingJob(JourneyRequest jr)
     {
         this._grPendingJobs.add(jr);
+    }
+
+    public void addAssignedJob(JourneyRequest jr)
+    {
+        this._grAssignedJobs.add(jr);
     }
 }

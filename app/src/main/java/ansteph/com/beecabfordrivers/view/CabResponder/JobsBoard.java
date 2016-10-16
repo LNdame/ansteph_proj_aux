@@ -12,8 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.ViewAnimator;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -84,6 +91,45 @@ public class JobsBoard extends AppCompatActivity {
                 .addToBackStack(BoardLangdingFragment.TAG);
         fragmentTransaction.replace(R.id.container_body, fragment,BoardLangdingFragment.TAG);
         fragmentTransaction.commit();*/
+
+        final ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.viewAnimator);
+
+
+        final Animation inAmin = AnimationUtils.loadAnimation(getApplication(),android.R.anim.slide_in_left);
+        final Animation outAmin = AnimationUtils.loadAnimation(getApplication(),android.R.anim.slide_out_right);
+
+        viewAnimator.setInAnimation(inAmin);
+        viewAnimator.setOutAnimation(outAmin);
+
+        viewAnimator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewAnimator.showNext();
+            }
+        });
+
+
+
+        try{
+            Glide.with(getApplication()).load(R.drawable.advert).into((ImageView) findViewById(R.id.imgadvplace));
+            Glide.with(getApplication()).load(R.drawable.denys).into((ImageView) findViewById(R.id.imgadvplace2));
+            Glide.with(getApplication()).load(R.drawable.auto).into((ImageView) findViewById(R.id.imgadvplace3));
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+
+        Button btnCaller = (Button) findViewById(R.id.btnCaller);
+        btnCaller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplication(), JoRPickupBoard.class);
+                startActivity(i);
+            }
+        });
+
     }
 
 

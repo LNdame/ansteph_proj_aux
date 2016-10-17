@@ -107,4 +107,12 @@ public class Config {
 
 
 
+    /****************************************************---Config for FLAGS---*************************************************************/
+
+    public static final String FLAG_ORIGIN = "FLAG";
+    public static final int FLAG_FROMPICKBOARD = 1;
+    public static final int FLAG_ASSLIST = 2;
+    public static final int FLAG_PENLIST= 3;
+
+
 }

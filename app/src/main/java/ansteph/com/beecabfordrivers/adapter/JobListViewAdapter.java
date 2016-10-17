@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ansteph.com.beecabfordrivers.R;
+import ansteph.com.beecabfordrivers.app.Config;
 import ansteph.com.beecabfordrivers.model.JourneyRequest;
 import ansteph.com.beecabfordrivers.view.CabResponder.JobDetails;
 
@@ -81,6 +82,7 @@ public class JobListViewAdapter extends ArrayAdapter<JourneyRequest> {
 
                 Intent i = new Intent(context, JobDetails.class);
                 i.putExtra("job",jr);
+                i.putExtra(Config.FLAG_ORIGIN,Config.FLAG_ASSLIST);
                 context.startActivity(i);
                // Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show();
             }

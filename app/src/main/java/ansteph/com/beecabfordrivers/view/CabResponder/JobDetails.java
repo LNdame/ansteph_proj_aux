@@ -9,10 +9,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -40,10 +45,14 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import ansteph.com.beecabfordrivers.R;
+import ansteph.com.beecabfordrivers.app.Config;
+import ansteph.com.beecabfordrivers.app.GlobalRetainer;
 import ansteph.com.beecabfordrivers.model.JourneyRequest;
 
 public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
@@ -56,6 +65,16 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
     Projection projection;
     JourneyRequest job;
     private Marker mPE;
+
+
+    RelativeLayout lytBiding, lytOffer;
+    TextView txtbid;
+
+    Button btnSubmit, btnCancelOffer;
+    GlobalRetainer mGlobalRetainer;
+
+
+    String mCounterFare;
 
     public static final CameraPosition PE =
             new CameraPosition.Builder().target(new LatLng(-33.7139, 25.5207))
@@ -71,7 +90,14 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       job = new JourneyRequest();
+        mGlobalRetainer =(GlobalRetainer) getApplicationContext();
+
+        lytBiding = (RelativeLayout) findViewById(R.id.lytBiding);
+        lytOffer = (RelativeLayout) findViewById(R.id.lytOffer);
+
+        txtbid = (TextView) findViewById(R.id.txtbidtitle);
+
+        job = new JourneyRequest();
 
         lowBid  =(TextView) findViewById(R.id.txtlowbid);
         destination  =(TextView) findViewById(R.id.txtDestination);
@@ -92,6 +118,8 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
             lowBid.setText("R"+job.getProposedFare());
 
             if(job.getTimeCreated()!=null) primeTimer(job.getTimeCreated());
+
+            setupLayout(extra.getInt(Config.FLAG_ORIGIN));
         }
 
 
@@ -104,6 +132,33 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
         {
            e.printStackTrace();
         }
+
+
+        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCounterFare = ((EditText) findViewById(R.id.edtCounter)).getText().toString();
+
+                if(mCounterFare.equals("")||mCounterFare.isEmpty()){
+                    mCounterFare=job.getProposedFare();
+                }
+
+                try {
+                    createJobResponse(job);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btnCancelOffer = (Button) findViewById(R.id.btnCancelOf);
+        btnCancelOffer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
 
@@ -133,6 +188,17 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
                 txtTimeLeft.setText("all bets are off!");
             }
         }.start();
+    }
+
+
+    private void setupLayout(int flag)
+    {
+        if(flag == Config.FLAG_ASSLIST)
+        {
+          lytBiding.setVisibility(View.GONE);
+            lytOffer.setVisibility(View.GONE);
+            txtbid.setText(getString(R.string.bidtitle));
+        }
     }
 
     @Override
@@ -336,4 +402,61 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
         getDirection();
 
     }
+
+
+    public void createJobResponse (final JourneyRequest j) throws JSONException {
+
+        // Displaying the progress dialog
+        final ProgressDialog loading = ProgressDialog.show(this, "Sending answer","Just wait while we submit your answer", false, false);
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.CREATE_RESPONSE_JOB_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        try{
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean error = jsonResponse.getBoolean(Config.ERROR_RESPONSE);
+                            String serverMsg = jsonResponse.getString(Config.MSG_RESPONSE);
+                            if(!error){
+                                loading.dismiss();
+                                Toast.makeText(getApplicationContext(), serverMsg, Toast.LENGTH_LONG).show();
+
+                            }
+                        }catch (JSONException e)
+                        {
+                            loading.dismiss();
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+
+                params.put(Config.KEY_PRO_FARE, j.getProposedFare());
+                params.put(Config.KEY_COUNT_OFFER, mCounterFare);
+                params.put(Config.KEY_CALL_ALL, (j.isCallAllowed()==true)?"1":"0");
+                params.put(Config.KEY_JRID, String.valueOf(j.getId()) );
+                params.put(Config.KEY_TDID, mGlobalRetainer.get_grDriver().getId());
+
+                return params;
+
+            }
+        };
+        RequestQueue requestQueue =  Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+
+    }
+
+
+
 }

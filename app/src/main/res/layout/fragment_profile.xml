@@ -277,7 +277,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="Email"
-                    android:id="@+id/textView2"
+                    android:id="@+id/txtbidtitle"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"/>
 
@@ -288,7 +288,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="tony@gmail.com"
                     android:id="@+id/txtemail"
-                    android:layout_below="@+id/textView2"
+                    android:layout_below="@+id/txtbidtitle"
                     android:layout_centerHorizontal="true"/>
                 <ImageView
                     android:layout_width="30dp"

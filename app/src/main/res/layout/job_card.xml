@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Lowest Bid"
-            android:id="@+id/textView2"
+            android:id="@+id/txtbidtitle"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"/>
 
@@ -43,7 +43,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="R00"
             android:id="@+id/txtlowbid"
-            android:layout_below="@+id/textView2"
+            android:layout_below="@+id/txtbidtitle"
             android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 

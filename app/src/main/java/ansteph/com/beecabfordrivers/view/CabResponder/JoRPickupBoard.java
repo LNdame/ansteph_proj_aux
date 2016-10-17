@@ -222,6 +222,7 @@ public class JoRPickupBoard extends AppCompatActivity {
                             public void onActionClicked(View view, Card card) {
                                 Intent i = new Intent(mContext, JobDetails.class);
                                 i.putExtra("job", j);
+                                i.putExtra(Config.FLAG_ORIGIN,Config.FLAG_FROMPICKBOARD);
                                 startActivity(i);
                             }
                         }))
@@ -231,7 +232,7 @@ public class JoRPickupBoard extends AppCompatActivity {
                         .setTextResourceColor(R.color.orange_button).setListener(new OnActionClickListener() {
                             @Override
                             public void onActionClicked(View view, Card card) {
-                             // TODO: 16/10/2016 add the action to take after direct accept
+
                                 try {
                                     createJobResponse(j);
                                 } catch (JSONException e) {

@@ -87,5 +87,7 @@
     <string name="pwd_short">The password provided is too short (min. 6 characters)</string>
     <string name="pwd_mismatch">The password and the confirmed password do not match</string>
 
+    <string name="bidtitle">Your bid</string>
+
 
 </resources>

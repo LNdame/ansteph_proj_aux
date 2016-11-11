@@ -115,9 +115,10 @@ public class AssignedFragment extends Fragment {
         {
             try {
                 JSONObject job = jobArray.getJSONObject(i);
-                JourneyRequest j=  new JourneyRequest(job.getInt("id"), job.getString("ar_pickup_add"),job.getString("ar_destination_add"),job.getString("jr_pickup_time"),String.valueOf(job.getInt("ar_final_fare"))
-                        ,job.getString("ar_pickup_coord"),job.getString("ar_destination_coord"),job.getString("ar_tc_id"));
+                JourneyRequest j=  new JourneyRequest(job.getInt("ar_jr_id"), job.getString("ar_pickup_add"),job.getString("ar_destination_add"),job.getString("jr_pickup_time"),String.valueOf(job.getInt("jr_proposed_fare"))
+                        ,String.valueOf(job.getInt("ar_final_fare")),job.getString("ar_pickup_coord"),job.getString("ar_destination_coord"),job.getString("ar_tc_id"));
 
+              j.setStatus(job.getInt("ar_status"));
                 SimpleDateFormat sdf = new SimpleDateFormat(Config.DATE_FORMAT);
 
                 try{

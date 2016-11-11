@@ -76,6 +76,13 @@ public class JobListViewAdapter extends ArrayAdapter<JourneyRequest> {
         holder.txtTime.setText(jr.getPickupTime());
 
 
+
+        if(jr.getStatus()==2)
+        {
+            holder.btnDetails.setBackgroundColor(context.getResources().getColor( R.color.green));
+        }
+
+
         holder.btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

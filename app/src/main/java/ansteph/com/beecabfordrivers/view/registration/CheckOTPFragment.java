@@ -141,7 +141,7 @@ public class CheckOTPFragment extends Fragment {
 
         fragmentTransaction.replace(R.id.container_body, fragment);
         fragmentTransaction.commit();
-        setTitle("Edit profile");
+        setTitle("Success!");
     }
 
     @Override

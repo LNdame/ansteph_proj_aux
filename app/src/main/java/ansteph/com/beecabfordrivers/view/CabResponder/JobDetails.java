@@ -1,6 +1,7 @@
 package ansteph.com.beecabfordrivers.view.CabResponder;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -106,7 +107,8 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
         putime  =(TextView) findViewById(R.id.txtTime);
         txtdistance=(TextView) findViewById(R.id.txtDistance);
         txtTimeLeft=(TextView) findViewById(R.id.txtTimeLeft);
-
+        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+        btnCancelOffer = (Button) findViewById(R.id.btnCancelOf);
         Bundle extra = getIntent().getExtras();
         if(extra!=null)
         {
@@ -134,25 +136,28 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
         }
 
 
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCounterFare = ((EditText) findViewById(R.id.edtCounter)).getText().toString();
 
-                if(mCounterFare.equals("")||mCounterFare.isEmpty()){
-                    mCounterFare=job.getProposedFare();
-                }
+               if(((Button)v).getText().toString().equals("Confirm Pickup"))
+               {
+                   try {
+                       AcceptJob(job);
+                   } catch (JSONException e) {
+                       e.printStackTrace();
+                   }
+               }else{
+                   submitOffer();
+               }
 
-                try {
-                    createJobResponse(job);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
+
             }
         });
 
-        btnCancelOffer = (Button) findViewById(R.id.btnCancelOf);
+
         btnCancelOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,6 +168,22 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+
+    public void submitOffer()
+    {
+        mCounterFare = ((EditText) findViewById(R.id.edtCounter)).getText().toString();
+
+        if(mCounterFare.equals("")||mCounterFare.isEmpty()){
+            mCounterFare=job.getProposedFare();
+        }
+
+        try {
+            createJobResponse(job);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -198,6 +219,8 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
           lytBiding.setVisibility(View.GONE);
             lytOffer.setVisibility(View.GONE);
             txtbid.setText(getString(R.string.bidtitle));
+            lowBid.setText("R"+job.getArFinalFare());
+            btnSubmit.setText("Confirm Pickup");
         }
     }
 
@@ -458,5 +481,47 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
     }
 
 
+   // UPDATE_ASSIGN_JOUR_URL
+    public void AcceptJob(final JourneyRequest j)throws JSONException{
+
+
+        // Displaying the progress dialog
+        final ProgressDialog loading = ProgressDialog.show(this, "Sending confirmation","You should start your engine in the meantime ", false, false);
+
+        String url = ""+String.format(Config.UPDATE_ASSIGN_JOUR_URL, j.getId(),"2");
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        try{
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean error = jsonResponse.getBoolean(Config.ERROR_RESPONSE);
+                            String serverMsg = jsonResponse.getString(Config.MSG_RESPONSE);
+                            if(!error){
+                                loading.dismiss();
+                                Toast.makeText(getApplicationContext(), serverMsg, Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(getApplicationContext(),JobsBoard.class));
+                            }
+                        }catch (JSONException e)
+                        {
+                            loading.dismiss();
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }){
+
+        };
+        RequestQueue requestQueue =  Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+
+    }
 
 }

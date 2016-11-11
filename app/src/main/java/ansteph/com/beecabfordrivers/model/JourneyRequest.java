@@ -10,11 +10,12 @@ public class JourneyRequest implements Serializable {
 
 
 
-    private int id ;
+    private int id,status ;
     private String pickupAddr;
     private String destinationAddr;
     private String pickupTime;
     private String proposedFare;
+    private String arFinalFare;
     private boolean callAllowed;
     private String pickupCoord;
     private String destinationCoord;
@@ -49,6 +50,22 @@ public class JourneyRequest implements Serializable {
         this.pickupTime = pickupTime;
         this.proposedFare = proposedFare;
 
+        this.pickupCoord = pickupCoord;
+        this.destinationCoord = destinationCoord;
+        this.clientID = clientID;
+
+    }
+
+
+
+    public JourneyRequest(int id, String pickupAddr, String destinationAddr, String pickupTime, String proposedFare, String arFinalFare,
+                          String pickupCoord, String destinationCoord,  String clientID) {
+        this.id = id;
+        this.pickupAddr = pickupAddr;
+        this.destinationAddr = destinationAddr;
+        this.pickupTime = pickupTime;
+        this.proposedFare = proposedFare;
+        this.arFinalFare = arFinalFare;
         this.pickupCoord = pickupCoord;
         this.destinationCoord = destinationCoord;
         this.clientID = clientID;
@@ -156,5 +173,22 @@ public class JourneyRequest implements Serializable {
 
     public void setTimeCreated(Date timeCreated) {
         this.timeCreated = timeCreated;
+    }
+
+    public String getArFinalFare() {
+        return arFinalFare;
+    }
+
+    public void setArFinalFare(String arFinalFare) {
+        this.arFinalFare = arFinalFare;
+    }
+
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

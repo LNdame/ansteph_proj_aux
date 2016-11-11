@@ -9,10 +9,10 @@ public class Config {
 
     /****************************************************---Domain---*************************************************************/
 
-   private static String DOMAIN="http://10.0.0.5:8888/taxi/";
+  // private static String DOMAIN="http://10.0.0.3:8888/taxi/";
   //  private static String DOMAIN="http://10.11.0.86:8888/taxi/";
      //private static String DOMAIN="http://www.beecab.co.za/";
-
+  private static String DOMAIN="http://beecab.net/api/";
     /****************************************************---Route---*************************************************************/
 
 
@@ -33,7 +33,9 @@ public class Config {
     public static final String RETRIEVE_USER_PROFILE_URL = DOMAIN+"v1/retrieve_dr_profile/%s";
  public static final String RETRIEVE_PENDING_JOUR_URL = DOMAIN+"v1/retrieve_pending_jour_response/%s";
     public static final String RETRIEVE_ASSIGN_JOUR_URL = DOMAIN+"v1/retrieve_accepted_jour_response/%s";
-
+    public static final String UPDATE_ASSIGN_JOUR_URL= DOMAIN+"v1/updateacceptedrequest/%s/%s";
+    public static final String RETRIEVE_REFERRAL_URL =DOMAIN+"v1/retrieve_driver_referral/%s";
+    public static final String CREATE_CLIENT_REFERRAL_URL =DOMAIN+"v1/create_driver_referral";
 
     /****************************************************---SMS FLAGS---*************************************************************/
 

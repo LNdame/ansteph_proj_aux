@@ -27,7 +27,7 @@
     <string name="err_msg_email">Enter valid email address</string>
     <string name="err_msg_password">Enter the password</string>
 
-
+    <string name="btn_send_forgotten">Send</string>
     <string name="tell"><u>Tell us a bit about yourself!</u> </string>
 
     <string name="pick_a_role">Select a style, &#8230;  well you know the drill&#8230; I hope.  </string>
@@ -88,6 +88,8 @@
     <string name="pwd_mismatch">The password and the confirmed password do not match</string>
 
     <string name="bidtitle">Your bid</string>
+    <string name="title_activity_referral_history">ReferralHistory</string>
+    <string name="title_activity_send_referral">SendReferral</string>
 
 
 </resources>

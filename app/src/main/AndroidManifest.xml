@@ -128,6 +128,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ansteph.com.beecabfordrivers.view.extraAction.Profile"/>
         </activity>
+        <activity
+            android:name=".referral.ReferralHistory"
+            android:label="@string/title_activity_referral_history"
+            android:parentActivityName=".view.CabResponder.JobsBoard"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard"/>
+        </activity>
+        <activity
+            android:name=".referral.SendReferral"
+            android:label="@string/title_activity_send_referral"
+            android:parentActivityName=".referral.ReferralHistory"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ansteph.com.beecabfordrivers.referral.ReferralHistory"/>
+        </activity>
     </application>
 
 </manifest>

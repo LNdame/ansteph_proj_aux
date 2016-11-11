@@ -11,6 +11,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import ansteph.com.beecabfordrivers.R;
+import ansteph.com.beecabfordrivers.referral.ReferralHistory;
 import ansteph.com.beecabfordrivers.testzone.SavePicInternal;
 import ansteph.com.beecabfordrivers.testzone.UploadService;
 
@@ -51,7 +52,8 @@ public class ActionList extends AppCompatActivity {
                     case 0 :
                         Intent i = new Intent(getApplicationContext(), Profile.class);
                         startActivity(i); break;
-                    case 1 :
+                    case 1 :Intent k = new Intent(getApplicationContext(), ReferralHistory.class);
+                        startActivity(k); break;
                     case 2:
                     case 3 :
                     case 4 :Intent j = new Intent(getApplicationContext(), SavePicInternal.class);

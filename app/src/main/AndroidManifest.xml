@@ -100,7 +100,7 @@
         <activity android:name=".view.extraAction.ActionList">
         </activity>
         <activity
-            android:name=".view.extraAction.Profile"
+            android:name=".view.profile.Profile"
             android:label="@string/title_activity_profile"
             android:parentActivityName=".view.extraAction.ActionList"
             android:theme="@style/AppTheme.NoActionBar">
@@ -122,11 +122,11 @@
         <activity
             android:name=".view.profile.UpdatePassword"
             android:label="@string/title_activity_update_password"
-            android:parentActivityName=".view.extraAction.Profile"
+            android:parentActivityName=".view.profile.Profile"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ansteph.com.beecabfordrivers.view.extraAction.Profile"/>
+                android:value="ansteph.com.beecabfordrivers.view.profile.Profile"/>
         </activity>
         <activity
             android:name=".referral.ReferralHistory"

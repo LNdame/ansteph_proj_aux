@@ -52,7 +52,9 @@ public class SessionManager {
     public static final String KEY_YEAR = "year";
 
 
-    public static final String KEY_PROFILEPICPATH = "profilepicpath";
+    public static final String KEY_DRIVERPICPATH = "driverpicpath";
+    public static final String KEY_DRIVER2PICPATH = "driver2picpath";
+    public static final String KEY_CAR_BACKPICPATH = "carbackpicpath";
     public static final String KEY_PROFILEUSERNAME= "username";
 
 
@@ -198,16 +200,41 @@ public class SessionManager {
         return preferences.getBoolean(IS_FIRST_TIME_LAUNCH, true);
     }
 
-    public void setProfilePath( String path)
+    public void setDriverPath( String path)
     {
-        editor.putString(KEY_PROFILEPICPATH, path);
+        editor.putString(KEY_DRIVERPICPATH, path);
         editor.commit();
     }
 
-    public String getProfilePath()
+    public String getDriverPath()
     {
-        return preferences.getString(KEY_PROFILEPICPATH,null);
+        return preferences.getString(KEY_DRIVERPICPATH,null);
     }
+
+    public void setDriver2Path( String path)
+    {
+        editor.putString(KEY_DRIVER2PICPATH, path);
+        editor.commit();
+    }
+
+    public String getDriver2Path()
+    {
+        return preferences.getString(KEY_DRIVER2PICPATH,null);
+    }
+
+
+
+    public void setCarBackPath( String path)
+    {
+        editor.putString(KEY_CAR_BACKPICPATH, path);
+        editor.commit();
+    }
+
+    public String getCarBackPath()
+    {
+        return preferences.getString(KEY_CAR_BACKPICPATH,null);
+    }
+
 
 
 

@@ -1,7 +1,12 @@
-package ansteph.com.beecabfordrivers.view.extraAction;
+package ansteph.com.beecabfordrivers.view.profile;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,11 +38,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Map;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import ansteph.com.beecabfordrivers.R;
 import ansteph.com.beecabfordrivers.app.Config;
 import ansteph.com.beecabfordrivers.app.GlobalRetainer;
+import ansteph.com.beecabfordrivers.helper.SessionManager;
 import ansteph.com.beecabfordrivers.model.DriverProfile;
 import ansteph.com.beecabfordrivers.testzone.CustomVolleyRequest;
 
@@ -54,6 +65,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public static final String TAG = ProfileFragment.class.getSimpleName();
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private static final String KEY_DRIVERIMG = "BeeCabDriver";
+    private static final String KEY_DRIVER2IMG = "BeeCabDriver2";
+    private static final String KEY_CARBACKIMG = "BeeCabCarBack";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -77,6 +92,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     DriverProfile driverProfile  ;
 
     GlobalRetainer mGlobalRetainer;
+
+    SessionManager sessionManager;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -116,6 +133,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         driverProfile =null ;
         mGlobalRetainer = (GlobalRetainer) getActivity().getApplicationContext();
+        sessionManager = new SessionManager(getActivity().getApplicationContext());
 
         lnImage1 = (LinearLayout) rootView.findViewById(R.id.lnImage1) ;
         lnImage2 = (LinearLayout) rootView.findViewById(R.id.lnImage2) ;
@@ -151,8 +169,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         goright2.setOnClickListener(this);
         goright3.setOnClickListener(this);
 
-        getImageData();
-
+      //  getImageData();
+        loadProfileImageFromInternalStorage();
 
 
         return rootView;
@@ -200,6 +218,92 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
 
     }
+
+    //try to load the image from their internal storage before the network call
+
+    private void loadProfileImageFromInternalStorage()
+    {
+        Boolean IsLoadSuccess = false;
+
+        if(sessionManager.getDriverPath() !=null){
+
+           try{
+               File f=new File(sessionManager.getDriverPath(), "DriverProfile_1.jpg");
+               Bitmap b = BitmapFactory.decodeStream(new FileInputStream( f));
+
+              ImageView networkImageView = new ImageView(getActivity());
+               networkImageView.setImageBitmap(b);
+               networkImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+               LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,LinearLayoutCompat.LayoutParams.MATCH_PARENT);
+               lnImage1.addView(networkImageView, params);
+
+               IsLoadSuccess = true;
+
+           }catch (FileNotFoundException e)
+           {
+               e.printStackTrace();
+           }
+
+        }else {IsLoadSuccess = false;}
+
+
+        if(sessionManager.getDriver2Path() !=null){
+
+            try{
+                File f=new File(sessionManager.getDriver2Path(), "DriverProfile_2.jpg");
+                Bitmap b = BitmapFactory.decodeStream(new FileInputStream( f));
+
+              ImageView networkImageView = new ImageView(getActivity());
+                networkImageView.setImageBitmap(b);
+                networkImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,LinearLayoutCompat.LayoutParams.MATCH_PARENT);
+                lnImage2.addView(networkImageView, params);
+
+                IsLoadSuccess = true;
+
+            }catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+            }
+
+        }else {IsLoadSuccess = false;}
+
+
+        if(sessionManager.getCarBackPath() !=null){
+
+            try{
+                File f=new File(sessionManager.getDriverPath(), "DriverProfile_3.jpg");
+                Bitmap b = BitmapFactory.decodeStream(new FileInputStream( f));
+
+               ImageView networkImageView = new ImageView(getActivity());
+                networkImageView.setImageBitmap(b);
+                networkImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,LinearLayoutCompat.LayoutParams.MATCH_PARENT);
+                lnImage3.addView(networkImageView, params);
+
+                IsLoadSuccess = true;
+
+            }catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+            }
+
+        }else {IsLoadSuccess = false;}
+
+
+            if(!IsLoadSuccess)
+            {
+                getImageData();
+            }
+
+
+
+    }
+
+
 
     private void updateUI() {
 
@@ -338,6 +442,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             // networkImageView.setLayoutParams(new GridView.LayoutParams(400,400));
             lnImage1.addView(networkImageView, params);
 
+            //save internally
+
         }
 
 
@@ -364,6 +470,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,LinearLayoutCompat.LayoutParams.MATCH_PARENT);
             // networkImageView.setLayoutParams(new GridView.LayoutParams(400,400));
             lnImage2.addView(networkImageView, params);
+
+            //save internally
 
         }
 
@@ -392,8 +500,20 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             // networkImageView.setLayoutParams(new GridView.LayoutParams(400,400));
             lnImage3.addView(networkImageView, params);
 
+            //save internally
+
         }
 
+
+        if(imageurl1!=null && imageurl2!=null && imageurl3!=null)
+        {
+            SaveImageInternalTask st = new SaveImageInternalTask();
+            try {
+                st.execute(new URL(imageurl1),new URL(imageurl2),new URL(imageurl3));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
@@ -452,4 +572,107 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }
 
     }
+
+
+    /**************************************************Utility methods*************************************************/
+
+    private String saveToInternalStorage(String imageUrl , String imageName) throws IOException { //to be deleted the async method works better
+
+        Bitmap bitmapImage =null;
+
+       try{
+           URL url = new URL(imageUrl);
+           bitmapImage = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+       }catch (IOException e) {
+           e.printStackTrace();
+
+       }catch (Exception e)
+       {
+           e.printStackTrace();
+       }
+
+        ContextWrapper cw  = new ContextWrapper(getActivity());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("BeeCabImageDir", Context.MODE_PRIVATE);
+        //create imageDir
+        File mypath = new File(directory, imageName);
+
+        FileOutputStream fos = null;
+        try{
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }finally {
+            fos.close();
+        }
+
+        return directory.getAbsolutePath();
+
+
+    }
+
+
+    private class SaveImageInternalTask extends AsyncTask<URL, String, String>
+    {
+
+        @Override
+        protected String doInBackground(URL... urls) {
+
+            int count = urls.length;
+
+            for (int i =0; i<count ; i++)
+            {
+                try {
+                    Bitmap bitmapImage = BitmapFactory.decodeStream(urls[i].openConnection().getInputStream());
+
+                    ContextWrapper cw  = new ContextWrapper(getActivity());
+                    // path to /data/data/yourapp/app_data/imageDir
+                    File directory = cw.getDir("BeeCabImageDir", Context.MODE_PRIVATE);
+                    //create imageDir
+                    File mypath = new File(directory, "DriverProfile_"+(i+1)+".jpg");
+
+                    FileOutputStream fos = null;
+
+                    fos = new FileOutputStream(mypath);
+                    bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+
+                    fos.close();
+
+
+
+                    if(i==0){
+                        sessionManager.setDriverPath(directory.getAbsolutePath());
+                    }else if( i==1){
+                        sessionManager.setDriver2Path(directory.getAbsolutePath());
+                    }else if(i==2){
+                        sessionManager.setCarBackPath(directory.getAbsolutePath());
+                    }
+
+
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Toast.makeText(getActivity(),"Image saved", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+
+
+
 }

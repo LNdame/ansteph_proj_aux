@@ -1,43 +1,15 @@
-package ansteph.com.beecabfordrivers.view.extraAction;
+package ansteph.com.beecabfordrivers.view.profile;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ViewAnimator;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import ansteph.com.beecabfordrivers.R;
-import ansteph.com.beecabfordrivers.app.Config;
-import ansteph.com.beecabfordrivers.testzone.CustomVolleyRequest;
-import ansteph.com.beecabfordrivers.testzone.GridViewAdapter;
-import ansteph.com.beecabfordrivers.view.CabResponder.BoardLangdingFragment;
 
 public class Profile extends AppCompatActivity  {
 

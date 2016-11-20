@@ -2,6 +2,7 @@ package ansteph.com.beecabfordrivers.view.CabResponder.jobfragments;
 
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -109,7 +110,11 @@ public class AnsweredFragment extends Fragment {
         return  rootView;
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        primeTimer();
+    }
 
     private void UpdatePendingJobList(JSONArray jobArray)
     {
@@ -178,4 +183,35 @@ public class AnsweredFragment extends Fragment {
         requestQueue.add(stringRequest);
 
     }
+
+
+
+    private void primeTimer()
+    {
+        long countdownmill = 120000;
+
+        new CountDownTimer(countdownmill, 30000){
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                //    txtTimer.setText("Time remaining: " + millisUntilFinished/1000);
+                try {
+                    retrievePendingJobs();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                primeTimer();
+            }
+        }.start();
+    }
+
+
+
+
+
+
 }

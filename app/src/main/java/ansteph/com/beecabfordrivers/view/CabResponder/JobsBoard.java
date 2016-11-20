@@ -111,7 +111,7 @@ public class JobsBoard extends AppCompatActivity {
 
 
         try{
-            Glide.with(getApplication()).load(R.drawable.advert).into((ImageView) findViewById(R.id.imgadvplace));
+
             Glide.with(getApplication()).load(R.drawable.denys).into((ImageView) findViewById(R.id.imgadvplace2));
             Glide.with(getApplication()).load(R.drawable.auto).into((ImageView) findViewById(R.id.imgadvplace3));
         }catch (Exception e)

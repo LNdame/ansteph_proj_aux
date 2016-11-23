@@ -4,26 +4,33 @@ package ansteph.com.beecabfordrivers.view.profile;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -38,6 +45,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -45,6 +53,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Hashtable;
+import java.util.Map;
 
 import ansteph.com.beecabfordrivers.R;
 import ansteph.com.beecabfordrivers.app.Config;
@@ -74,6 +84,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
 
+    private int PICK_IMAGE_REQUEST = 1;
+    private int RESULT_OK = -1;
+
 
     //Imageloader to load images
     private ImageLoader imageLoader;
@@ -87,6 +100,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     ImageView imgEditEmail, imgEditCarModel,imgEditNumPlate,imgEditCabLicence,imgEditYear;
 
     TextView  txtEmail,txtPhone, txtName, txtCarModel, txtNumberPlate,txtCabLicence,txtYear, txtRating, txtCurrentCity;
+    Button btnChangePic1, btnChangePic2,btnChangePic3;
     ViewAnimator viewAnimator;
 
     DriverProfile driverProfile  ;
@@ -99,6 +113,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
+
+    public enum PicTag {
+        Driver, Driver2, Car_Back
+    }
+
+    PicTag mPicTag;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -147,6 +167,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         goright2 = (ImageView)rootView.findViewById(R.id.goright2) ;
         goright3 = (ImageView)rootView.findViewById(R.id.goright3) ;
 
+        btnChangePic1 = (Button) rootView.findViewById(R.id.Changepic1) ;
+        btnChangePic2 = (Button) rootView.findViewById(R.id.Changepic2) ;
+        btnChangePic3 = (Button) rootView.findViewById(R.id.Changepic3) ;
+
+
 
         getProfileData();
 
@@ -168,6 +193,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         goright1.setOnClickListener(this);
         goright2.setOnClickListener(this);
         goright3.setOnClickListener(this);
+
+        btnChangePic1.setOnClickListener(this);
+        btnChangePic2.setOnClickListener(this);
+        btnChangePic3.setOnClickListener(this);
 
       //  getImageData();
         loadProfileImageFromInternalStorage();
@@ -228,6 +257,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         if(sessionManager.getDriverPath() !=null){
 
            try{
+               lnImage1.removeAllViews();
                File f=new File(sessionManager.getDriverPath(), "DriverProfile_1.jpg");
                Bitmap b = BitmapFactory.decodeStream(new FileInputStream( f));
 
@@ -251,6 +281,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         if(sessionManager.getDriver2Path() !=null){
 
             try{
+                lnImage2.removeAllViews();
+
                 File f=new File(sessionManager.getDriver2Path(), "DriverProfile_2.jpg");
                 Bitmap b = BitmapFactory.decodeStream(new FileInputStream( f));
 
@@ -274,6 +306,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         if(sessionManager.getCarBackPath() !=null){
 
             try{
+                lnImage3.removeAllViews();
+
                 File f=new File(sessionManager.getDriverPath(), "DriverProfile_3.jpg");
                 Bitmap b = BitmapFactory.decodeStream(new FileInputStream( f));
 
@@ -566,6 +600,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             case R.id.imgEditCabLicence:showEditor("Cab Licence Number","Cab Licence Number");break;
             case R.id.imgEditYear:showEditor("Year of Licence","Edit Email field");break;
 
+            case R.id.Changepic1: showFileChooser(); mPicTag= PicTag.Driver; break;
+            case R.id.Changepic2:  showFileChooser();mPicTag= PicTag.Driver2;break;
+            case R.id.Changepic3:showFileChooser();mPicTag= PicTag.Car_Back;break;
+
+
             default:
 
 
@@ -575,21 +614,65 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
 
     /**************************************************Utility methods*************************************************/
+    private  void showFileChooser(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent.createChooser(intent,"Select Picture"), PICK_IMAGE_REQUEST);
+    }
 
-    private String saveToInternalStorage(String imageUrl , String imageName) throws IOException { //to be deleted the async method works better
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
 
-        Bitmap bitmapImage =null;
+    Bitmap bitmap;
 
-       try{
-           URL url = new URL(imageUrl);
-           bitmapImage = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-       }catch (IOException e) {
-           e.printStackTrace();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-       }catch (Exception e)
-       {
-           e.printStackTrace();
-       }
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri filePath =data.getData();
+            String path;
+
+            try{
+               bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+
+                switch (mPicTag){
+                    case  Driver: sessionManager.setDriverPath(saveToInternalStorage(bitmap, "DriverProfile_1.jpg")); break;
+                    case  Driver2: sessionManager.setDriver2Path(saveToInternalStorage(bitmap, "DriverProfile_2.jpg")); break;
+                    case  Car_Back: sessionManager.setCarBackPath(saveToInternalStorage(bitmap, "DriverProfile_3.jpg")); break;
+                }
+
+                loadProfileImageFromInternalStorage();
+                uploadImage();
+            }catch (IOException ie)
+            {
+
+            }
+
+
+        }
+
+    }
+
+
+
+
+
+    //Here method to catch the pic and save it in the relevant linearlayout while doing 2 thing save it internally and save it to server
+
+
+
+
+    private String saveToInternalStorage(Bitmap bitmapImage, String imageName) throws IOException { //to be deleted the async method works better
+
+
 
         ContextWrapper cw  = new ContextWrapper(getActivity());
         // path to /data/data/yourapp/app_data/imageDir
@@ -609,6 +692,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }finally {
             fos.close();
         }
+
+
 
         return directory.getAbsolutePath();
 
@@ -672,6 +757,64 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
 
+
+
+    private void uploadImage(){
+        //Showing the progress dialog
+        final ProgressDialog loading = ProgressDialog.show(getActivity(),"Saving the changes...","Please wait...",false,false);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.UPLOAD_URL_EN,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        //Disimissing the progress dialog
+                        loading.dismiss();
+                        //Showing toast message of the response
+                        Toast.makeText(getActivity(), "Saved" , Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        //Dismissing the progress dialog
+                        loading.dismiss();
+
+                        //Showing toast
+                        Toast.makeText(getActivity(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Converting Bitmap to String
+                String image = getStringImage(bitmap);
+                Log.e("imagecode", image);
+                //Getting tag Name
+                String name = "";
+
+                switch (mPicTag){
+                    case  Driver: name = "driver" ; break;
+                    case  Driver2: name = "driver2" ; break;
+                    case  Car_Back: name = "car_back"; break;
+                }
+
+                //Creating parameters
+                Map<String,String> params = new Hashtable<String, String>();
+
+                //Adding parameters
+                params.put(Config.KEY_ID,mGlobalRetainer.get_grDriver().getId());
+                params.put(Config.KEY_IMAGE, image);
+                params.put(Config.KEY_IMAGE_TAG, name);
+
+                //returning parameters
+                return params;
+            }
+        };
+
+        //Creating a Request Queue
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+
+        //Adding request to the queue
+        requestQueue.add(stringRequest);
+    }
 
 
 

@@ -31,11 +31,13 @@ public class Config {
     public static final String UPLOAD_URL_image =DOMAIN+"v1/save_driver_profile";
     public static final String RETRIEVE_USER_IMAGE_URL = DOMAIN+"v1/retrieve_dr_profile_image/%s";
     public static final String RETRIEVE_USER_PROFILE_URL = DOMAIN+"v1/retrieve_dr_profile/%s";
- public static final String RETRIEVE_PENDING_JOUR_URL = DOMAIN+"v1/retrieve_pending_jour_response/%s";
+    public static final String RETRIEVE_PENDING_JOUR_URL = DOMAIN+"v1/retrieve_pending_jour_response/%s";
     public static final String RETRIEVE_ASSIGN_JOUR_URL = DOMAIN+"v1/retrieve_accepted_jour_response/%s";
     public static final String UPDATE_ASSIGN_JOUR_URL= DOMAIN+"v1/updateacceptedrequest/%s/%s";
     public static final String RETRIEVE_REFERRAL_URL =DOMAIN+"v1/retrieve_driver_referral/%s";
     public static final String CREATE_CLIENT_REFERRAL_URL =DOMAIN+"v1/create_driver_referral";
+    public static final String UPLOAD_URL_EN =DOMAIN+"v1/save_driver_profile_image";
+
 
     /****************************************************---SMS FLAGS---*************************************************************/
 
@@ -106,6 +108,9 @@ public class Config {
     public static final String KEY_CALL_ALL = "callAllowed";
     public static final String KEY_JRID = "jrID";
     public static final String KEY_TDID = "tdID";
+    public static final String KEY_IMAGE = "image";
+    public static final String KEY_IMAGE_TAG = "image_tag";
+
 
 
 

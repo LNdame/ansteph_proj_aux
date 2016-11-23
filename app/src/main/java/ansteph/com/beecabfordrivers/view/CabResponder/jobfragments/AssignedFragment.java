@@ -177,7 +177,7 @@ public class AssignedFragment extends Fragment {
 
             }
         }){};
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(GlobalRetainer.getAppContext());
         requestQueue.add(stringRequest);
 
     }
@@ -196,6 +196,9 @@ public class AssignedFragment extends Fragment {
                 try {
                     retrieveAssignedJobs();
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                }catch (Exception e)
+                {
                     e.printStackTrace();
                 }
             }

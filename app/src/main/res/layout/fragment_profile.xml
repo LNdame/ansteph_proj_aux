@@ -520,7 +520,7 @@
                     android:layout_height="wrap_content"
 
                     android:text="Submit Change"
-                    android:id="@+id/button2"
+                    android:id="@+id/btnSubmitChange"
                     android:layout_centerVertical="true"
                     />
 
@@ -529,7 +529,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cancel"
-                    android:id="@+id/button3"
+                    android:id="@+id/btnCancelChange"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="right"/>

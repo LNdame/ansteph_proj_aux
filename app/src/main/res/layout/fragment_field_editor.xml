@@ -6,6 +6,33 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <LinearLayout
+        android:id="@+id/lytSensitive"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:visibility="gone"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        >
+
+
+        <TextView
+            android:text="@string/sensitive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:id="@+id/textView11"/>
+
+        <Button
+            style="@style/buttonStyle"
+            android:text="Send Email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSendEmail"/>
+    </LinearLayout>
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_layout_editee"
         android:layout_width="match_parent"
@@ -21,6 +48,30 @@
             android:singleLine="true"
             android:hint="Field" />
     </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/lytCity"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Please pick your default a city (please remember to change it if you move)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"/>
+
+        <Spinner
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinCity"/>
+    </LinearLayout>
+
+
+
 
 
     <Button
@@ -38,6 +89,10 @@
         style="@style/buttonStyle"
         android:id="@+id/btnOK"
         android:layout_gravity="right|bottom"/>
+
+
+
+
 </FrameLayout>
 
 

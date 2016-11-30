@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import ansteph.com.beecabfordrivers.R;
 import ansteph.com.beecabfordrivers.referral.ReferralHistory;
 import ansteph.com.beecabfordrivers.testzone.SavePicInternal;
+import ansteph.com.beecabfordrivers.view.account.DriverAccount;
 import ansteph.com.beecabfordrivers.view.profile.Profile;
 
 public class ActionList extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class ActionList extends AppCompatActivity {
         list.add("Referral Program");
         list.add("Credits");
         list.add("Contact Us");
-        list.add("Test Zone");
+        list.add("Account");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 
@@ -54,9 +55,11 @@ public class ActionList extends AppCompatActivity {
                         startActivity(i); break;
                     case 1 :Intent k = new Intent(getApplicationContext(), ReferralHistory.class);
                         startActivity(k); break;
-                    case 2:
-                    case 3 :
-                    case 4 :Intent j = new Intent(getApplicationContext(), SavePicInternal.class);
+                    case 2:Intent l = new Intent(getApplicationContext(), Credits.class);
+                        startActivity(l); break;
+                    case 3 :Intent m = new Intent(getApplicationContext(), Contact.class);
+                        startActivity(m); break;
+                    case 4 :Intent j = new Intent(getApplicationContext(), DriverAccount.class);
                         startActivity(j); break;
                     default:
                 }

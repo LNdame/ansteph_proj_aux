@@ -46,6 +46,7 @@ public class JobsBoard extends AppCompatActivity {
     ViewPager viewPager;
 
     TabLayout tabLayout;
+    public static boolean isInFront=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -213,5 +214,30 @@ public class JobsBoard extends AppCompatActivity {
             return tabTitles[position] ;
         }
     }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setInFront(true);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        setInFront(false);
+    }
+
+    public boolean isInFront() {
+        return isInFront;
+    }
+
+    public void setInFront(boolean inFront) {
+        isInFront = inFront;
+    }
+
+
 
 }

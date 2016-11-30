@@ -29,6 +29,7 @@ import ansteph.com.beecabfordrivers.adapter.JobListViewAdapter;
 import ansteph.com.beecabfordrivers.app.Config;
 import ansteph.com.beecabfordrivers.app.GlobalRetainer;
 import ansteph.com.beecabfordrivers.model.JourneyRequest;
+import ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -196,7 +197,10 @@ public class AnsweredFragment extends Fragment {
             public void onTick(long millisUntilFinished) {
                 //    txtTimer.setText("Time remaining: " + millisUntilFinished/1000);
                 try {
-                    retrievePendingJobs();
+
+                    if(JobsBoard.isInFront)
+                        retrievePendingJobs();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }catch (Exception e)

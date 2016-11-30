@@ -322,8 +322,9 @@ public class JoRPickupBoard extends AppCompatActivity {
         // Displaying the progress dialog
         final ProgressDialog loading = ProgressDialog.show(this, "Getting Jobs","Just retrieving the jobs", false, false);
 
+        String url = String.format(Config.RETRIEVE_JOBS_URL, mGlobalRetainer.get_grDriver().getId());
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Config.RETRIEVE_JOBS_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

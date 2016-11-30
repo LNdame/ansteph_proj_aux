@@ -16,6 +16,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -145,6 +146,33 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ansteph.com.beecabfordrivers.referral.ReferralHistory"/>
+        </activity>
+        <activity
+            android:name=".view.account.DriverAccount"
+            android:label="@string/title_activity_driver_account"
+            android:parentActivityName=".view.CabResponder.JobsBoard"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard"/>
+        </activity>
+        <activity
+            android:name=".view.extraAction.Contact"
+            android:label="@string/title_activity_contact"
+            android:parentActivityName=".view.CabResponder.JobsBoard"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard"/>
+        </activity>
+        <activity
+            android:name=".view.extraAction.Credits"
+            android:label="@string/title_activity_credits"
+            android:parentActivityName=".view.CabResponder.JobsBoard"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard"/>
         </activity>
     </application>
 

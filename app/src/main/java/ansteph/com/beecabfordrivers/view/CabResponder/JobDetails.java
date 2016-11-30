@@ -117,7 +117,7 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
             pickup.setText(job.getPickupAddr());
             proposedFare.setText("R"+job.getProposedFare());
             putime.setText(job.getPickupTime());
-            lowBid.setText("R"+job.getProposedFare());
+            lowBid.setText("R"+ (job.getProposedFare()!=null ||!job.getProposedFare().equals("null") ? job.getProposedFare():"0"));
 
             if(job.getTimeCreated()!=null) primeTimer(job.getTimeCreated());
 
@@ -415,10 +415,10 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
         LatLng pick = new LatLng(Double.parseDouble(coorp[0]),Double.parseDouble(coorp[1]));
 
         Marker pickup = mGoogleMap.addMarker(new MarkerOptions().position(pick).title("Pickup").snippet(job.getPickupAddr()).
-                icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).draggable(false));
+                icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapin_blue)).draggable(false));
 
         Marker destination = mGoogleMap.addMarker(new MarkerOptions().position(dest).title("Destination").snippet(job.getDestinationAddr()).
-                icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).draggable(false));
+                icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapin_green)).draggable(false));
 
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pick,12.5f));
 

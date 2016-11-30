@@ -61,7 +61,9 @@ import ansteph.com.beecabfordrivers.app.Config;
 import ansteph.com.beecabfordrivers.app.GlobalRetainer;
 import ansteph.com.beecabfordrivers.helper.SessionManager;
 import ansteph.com.beecabfordrivers.model.DriverProfile;
+import ansteph.com.beecabfordrivers.model.DriverProfileEditMode;
 import ansteph.com.beecabfordrivers.testzone.CustomVolleyRequest;
+import ansteph.com.beecabfordrivers.view.extraAction.ActionList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,10 +99,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     ImageView goleft1,goleft2,goleft3, goright1, goright2, goright3;
 
-    ImageView imgEditEmail, imgEditCarModel,imgEditNumPlate,imgEditCabLicence,imgEditYear;
+    ImageView imgEditEmail, imgEditCarModel,imgEditNumPlate,imgEditCabLicence,imgEditYear,imgEditCurrentCity;
 
     TextView  txtEmail,txtPhone, txtName, txtCarModel, txtNumberPlate,txtCabLicence,txtYear, txtRating, txtCurrentCity;
-    Button btnChangePic1, btnChangePic2,btnChangePic3;
+    Button btnChangePic1, btnChangePic2,btnChangePic3,  btnSubmitChange, btnCancelChange;
     ViewAnimator viewAnimator;
 
     DriverProfile driverProfile  ;
@@ -108,6 +110,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     GlobalRetainer mGlobalRetainer;
 
     SessionManager sessionManager;
+
+    String mModifiable;
+    String mHint;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -171,9 +176,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         btnChangePic2 = (Button) rootView.findViewById(R.id.Changepic2) ;
         btnChangePic3 = (Button) rootView.findViewById(R.id.Changepic3) ;
 
+        btnSubmitChange = (Button) rootView.findViewById(R.id.btnSubmitChange) ;
+        btnCancelChange = (Button) rootView.findViewById(R.id.btnCancelChange) ;
 
-
-        getProfileData();
+        if(!((Profile)getActivity()).isEditorMode())
+                getProfileData();
 
         setEditor(rootView);
         setTextField(rootView);
@@ -198,6 +205,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         btnChangePic2.setOnClickListener(this);
         btnChangePic3.setOnClickListener(this);
 
+
+        btnCancelChange.setOnClickListener(this);
+        btnSubmitChange.setOnClickListener(this);
+
+
+
       //  getImageData();
         loadProfileImageFromInternalStorage();
 
@@ -212,13 +225,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         imgEditNumPlate= (ImageView)rootView.findViewById(R.id.imgEditNumberPlate) ;
         imgEditCabLicence= (ImageView)rootView.findViewById(R.id.imgEditCabLicence) ;
         imgEditYear= (ImageView)rootView.findViewById(R.id.imgEditYear) ;
+        imgEditCurrentCity = (ImageView)rootView.findViewById(R.id.imgEditCurrentCity) ;
 
         imgEditEmail.setOnClickListener(this);
         imgEditCarModel.setOnClickListener(this);
         imgEditNumPlate.setOnClickListener(this);
         imgEditCabLicence.setOnClickListener(this);
         imgEditYear.setOnClickListener(this);
-
+        imgEditCurrentCity.setOnClickListener(this);
     }
 
 
@@ -239,10 +253,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         txtName.setText(mGlobalRetainer.get_grDriver().getName());
         txtPhone.setText(mGlobalRetainer.get_grDriver().getMobile());
+
         txtEmail.setText(mGlobalRetainer.get_grDriver().getEmail());
 
-      txtCabLicence.setText(mGlobalRetainer.get_grDriver().getLicence());
-       txtYear.setText(mGlobalRetainer.get_grDriver().getYear());
+        txtCabLicence.setText(mGlobalRetainer.get_grDriver().getLicence());
+        txtYear.setText(mGlobalRetainer.get_grDriver().getYear());
 
 
 
@@ -341,13 +356,25 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private void updateUI() {
 
+        if(((Profile)getActivity()).isEditorMode())
+        {
+            if(mGlobalRetainer.getDriverProfileEditMode()!=null)
+            {
+                txtCarModel.setText(mGlobalRetainer.getDriverProfileEditMode().getCarModel());
+                txtNumberPlate.setText(mGlobalRetainer.getDriverProfileEditMode().getCarNumberPlate());
+                txtCurrentCity.setText(mGlobalRetainer.getDriverProfileEditMode().getCurrentCity());
+                txtRating.setText(mGlobalRetainer.getDriverProfileEditMode().getProfileRating());
+            }
+        }else{
+
+
         if(driverProfile!=null)
         {
             txtCarModel.setText(driverProfile.getCarModel());
             txtNumberPlate.setText(driverProfile.getCarNumberPlate());
             txtCurrentCity.setText(driverProfile.getCurrentCity());
             txtRating.setText(driverProfile.getProfileRating());
-        }
+        }}
     }
 
     private void getProfileData()
@@ -378,7 +405,20 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                                              user.getString(Config.KEY_CURRENT_CITY),
                                         user.getString(Config.KEY_PRO_RATING)
 
+
                         );
+
+
+                        if(!((Profile)getActivity()).isEditorMode()){
+                            DriverProfileEditMode  dpem = new DriverProfileEditMode(user.getString(Config.KEY_CAR_MODEL),
+                                    user.getString(Config.KEY_CAR_NUMPLATE),
+                                    user.getString(Config.KEY_CURRENT_CITY),
+                                    user.getString(Config.KEY_PRO_RATING));
+
+                            mGlobalRetainer.setDriverProfileEditMode(dpem);
+                        }
+
+
 
 
 
@@ -597,12 +637,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             case R.id.imgEditEmail:showEditor("Email","Edit Email field");break;
             case R.id.imgEditNumberPlate:showEditor("Car Number Plate","Car Number Plate");break;
             case R.id.imgEditCarModel:showEditor("Car Model","Edit Car Model");break;
+            case R.id.imgEditCurrentCity:showEditor("Current City","Edit Current City");break;
             case R.id.imgEditCabLicence:showEditor("Cab Licence Number","Cab Licence Number");break;
             case R.id.imgEditYear:showEditor("Year of Licence","Edit Email field");break;
 
             case R.id.Changepic1: showFileChooser(); mPicTag= PicTag.Driver; break;
             case R.id.Changepic2:  showFileChooser();mPicTag= PicTag.Driver2;break;
             case R.id.Changepic3:showFileChooser();mPicTag= PicTag.Car_Back;break;
+            case R.id.btnSubmitChange:submitChange();break;
+            case R.id.btnCancelChange:startActivity(new Intent(getActivity(), ActionList.class));break;
 
 
             default:
@@ -661,7 +704,53 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    public void submitChange ()
+    {
+        final ProgressDialog loading = ProgressDialog.show(getActivity(),"Saving the changes...","Please wait...",false,false);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.UPDATE_PROFILE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        //Disimissing the progress dialog
+                        loading.dismiss();
+                        //Showing toast message of the response
+                        Toast.makeText(getActivity(), "Saved" , Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        //Dismissing the progress dialog
+                        loading.dismiss();
 
+                        //Showing toast
+                        Toast.makeText(getActivity(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Converting Bitmap to String
+
+                //Creating parameters
+                Map<String,String> params = new Hashtable<String, String>();
+
+                //Adding parameters
+                params.put(Config.KEY_ID,mGlobalRetainer.get_grDriver().getId());
+                params.put(Config.KEY_CAR_NUMPLATE, txtNumberPlate.getText().toString());
+                params.put(Config.KEY_CURRENT_CITY, txtCurrentCity.getText().toString());
+                params.put(Config.KEY_CAR_MODEL, txtCarModel.getText().toString() );
+
+                //returning parameters
+                return params;
+            }
+        };
+
+        //Creating a Request Queue
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+
+        //Adding request to the queue
+        requestQueue.add(stringRequest);
+    }
 
 
 
@@ -786,7 +875,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             protected Map<String, String> getParams() throws AuthFailureError {
                 //Converting Bitmap to String
                 String image = getStringImage(bitmap);
-                Log.e("imagecode", image);
+              //  Log.e("imagecode", image);
                 //Getting tag Name
                 String name = "";
 
@@ -815,6 +904,46 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         //Adding request to the queue
         requestQueue.add(stringRequest);
     }
+
+
+    /**************************************************Modifiable related*************************************************/
+
+    @Override
+    public void onStart() {
+        super.onStart();
+     String    modifiable =( (Profile)getActivity()).getModifiable();
+        String   hint =( (Profile)getActivity()).getHint();
+
+
+        if(modifiable!=null && !modifiable.isEmpty())
+        {
+
+            Toast.makeText(GlobalRetainer.getAppContext(), modifiable, Toast.LENGTH_SHORT).show();
+            // change the right textview
+
+           if (hint.equals("Car Number Plate"))
+            {
+            //    txtNumberPlate.setText(modifiable);
+                mGlobalRetainer.getDriverProfileEditMode().setCarNumberPlate(modifiable);
+            }else if (hint.equals("Car Model"))
+            {
+              //  txtCarModel.setText(modifiable);
+                mGlobalRetainer.getDriverProfileEditMode().setCarModel(modifiable);
+            }
+
+            else if(hint.equals("Current City"))
+            {
+                //txtCurrentCity.setText(modifiable);
+                mGlobalRetainer.getDriverProfileEditMode().setCurrentCity(modifiable);
+            }
+
+            updateUI();
+
+        }
+    }
+
+
+
 
 
 

@@ -11,11 +11,16 @@ import com.android.volley.toolbox.ImageLoader;
 
 import ansteph.com.beecabfordrivers.R;
 
-public class Profile extends AppCompatActivity  {
+public class Profile extends AppCompatActivity implements FieldEditorFragment.OnFragmentInteractionListener {
 
     //Imageloader to load images
     private ImageLoader imageLoader;
 
+    private String modifiable;
+
+    private String hint;
+
+    private boolean isEditorMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +36,42 @@ public class Profile extends AppCompatActivity  {
         fragmentTransaction.replace(R.id.container_body, fragment,ProfileFragment.TAG);
         fragmentTransaction.commit();
 
+        isEditorMode = false;
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
+    @Override
+    public void onFragmentInteraction(String text, String hint) {
+            setModifiable(text);
+            setHint(hint);
+            setEditorMode(true);
+    }
 
+    public String getModifiable() {
+        return modifiable;
+    }
 
+    public void setModifiable(String modifiable) {
+        this.modifiable = modifiable;
+    }
 
+    public boolean isEditorMode() {
+        return isEditorMode;
+    }
+
+    public void setEditorMode(boolean editorMode) {
+        isEditorMode = editorMode;
+    }
+
+    public String getHint() {
+        return hint;
+    }
+
+    public void setHint(String hint) {
+        this.hint = hint;
+    }
 }
 
 

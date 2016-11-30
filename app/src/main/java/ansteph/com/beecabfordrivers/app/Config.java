@@ -20,7 +20,7 @@ public class Config {
     public static final String REGISTER_URL = DOMAIN+"v1/register_driver";
 
     public static final String RETRIEVE_USER_URL =DOMAIN+"v1/retrievetduser/%s/%s";
-    public static final String RETRIEVE_JOBS_URL =DOMAIN+"v1/retrieveallpendingjob";
+    public static final String RETRIEVE_JOBS_URL =DOMAIN+"v1/retrieveallpendingjobpercity/%s";
     public static final String REGISTER_FB =DOMAIN+"v1/register_fbNot";
 
     public static final String CREATE_JOB_URL =DOMAIN+"v1/createjob";
@@ -37,6 +37,7 @@ public class Config {
     public static final String RETRIEVE_REFERRAL_URL =DOMAIN+"v1/retrieve_driver_referral/%s";
     public static final String CREATE_CLIENT_REFERRAL_URL =DOMAIN+"v1/create_driver_referral";
     public static final String UPLOAD_URL_EN =DOMAIN+"v1/save_driver_profile_image";
+  public static final String UPDATE_PROFILE_URL =DOMAIN+"v1/update_driver_profile";
 
 
     /****************************************************---SMS FLAGS---*************************************************************/

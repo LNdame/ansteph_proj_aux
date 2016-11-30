@@ -92,4 +92,36 @@
     <string name="title_activity_send_referral">SendReferral</string>
 
 
+    <string name="sensitive">This information is considered sensitive. \n Please send us a ticket indicating the request for change </string>
+
+    <string-array name="city">
+        <item>Bloemfontein</item>
+        <item>Boksburg</item>
+        <item>Cape Town</item>
+        <item>Durban</item>
+        <item>East London</item>
+        <item>Germiston</item>
+        <item>iBhayi</item>
+        <item>Johannesburg</item>
+        <item>Katlehong</item>
+        <item>Khayelitsha</item>
+        <item>Mamelodi </item>
+        <item>Mitchells Plain</item>
+        <item>Port Elizabeth</item>
+        <item>Pretoria</item>
+        <item>Randburg</item>
+        <item>Roodepoort </item>
+        <item>Soshanguve</item>
+        <item>Soweto</item>
+        <item>Tembisa</item>
+        <item>Umlazi</item>
+    </string-array>
+    <string name="title_activity_driver_account">Account</string>
+    <string name="title_activity_contact">Contact</string>
+    <string name="title_activity_credits">Credits</string>
+    <string name="title_credits">BeeCab and BeeCab for Drivers</string>
+    <string name="main_credits">are software developed by INQB8 Business Technologies (Pty) \n All rights reserved. More info at  </string>
+    <string name="link_credits">www.inqb8.co.za - www.beecab.net - www.beecab.co.za</string>
+
+
 </resources>

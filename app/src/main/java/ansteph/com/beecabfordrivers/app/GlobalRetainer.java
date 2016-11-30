@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import ansteph.com.beecabfordrivers.model.Client;
 import ansteph.com.beecabfordrivers.model.Driver;
+import ansteph.com.beecabfordrivers.model.DriverProfileEditMode;
 import ansteph.com.beecabfordrivers.model.JourneyRequest;
 
 /**
@@ -37,7 +38,7 @@ public class GlobalRetainer extends Application {
     public ArrayList<JourneyRequest > _grAssignedJobs = new ArrayList<>();
     public Driver _grDriver = new Driver();   //(only one per login)
 
-
+    public DriverProfileEditMode driverProfileEditMode = new DriverProfileEditMode();
 
     public Driver get_grDriver() {
         return _grDriver;
@@ -80,5 +81,13 @@ public class GlobalRetainer extends Application {
 
     public static void setAppContext(Context mAppContext) {
         GlobalRetainer.mAppContext = mAppContext;
+    }
+
+    public DriverProfileEditMode getDriverProfileEditMode() {
+        return driverProfileEditMode;
+    }
+
+    public void setDriverProfileEditMode(DriverProfileEditMode driverProfileEditMode) {
+        this.driverProfileEditMode = driverProfileEditMode;
     }
 }

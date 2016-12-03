@@ -1,15 +1,22 @@
 package ansteph.com.beecabfordrivers.view.CabResponder;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,15 +34,19 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.HashMap;
 
 import ansteph.com.beecabfordrivers.R;
+import ansteph.com.beecabfordrivers.app.Config;
 import ansteph.com.beecabfordrivers.app.GlobalRetainer;
 import ansteph.com.beecabfordrivers.helper.SessionManager;
 import ansteph.com.beecabfordrivers.model.Driver;
 import ansteph.com.beecabfordrivers.service.FirebaseServerRegistration;
+import ansteph.com.beecabfordrivers.util.NotificationUtils;
 import ansteph.com.beecabfordrivers.view.CabResponder.jobfragments.AnsweredFragment;
 import ansteph.com.beecabfordrivers.view.CabResponder.jobfragments.AssignedFragment;
 import ansteph.com.beecabfordrivers.view.extraAction.ActionList;
 
 public class JobsBoard extends AppCompatActivity {
+
+    private static final String TAG = JobsBoard.class.getSimpleName();
 
     SessionManager sessionManager;
 
@@ -47,6 +58,7 @@ public class JobsBoard extends AppCompatActivity {
 
     TabLayout tabLayout;
     public static boolean isInFront=true;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,8 +143,63 @@ public class JobsBoard extends AppCompatActivity {
             }
         });
 
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                //Checking for the type of intent filter
+                if(intent.getAction().equals(Config.REGISTRATION_COMPLETE))
+                {
+                    //gcm successful reg
+                    //now subscribe to the topic beecab topic to receive app wide notifications
+                    FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
+                }else if (intent.getAction().equals(Config.PUSH_NOTIFICATION))
+                {
+                    String message = intent.getStringExtra("message");
+
+                    Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
+                }
+
+            }
+        };
+
     }
 
+
+    // Fetches reg id from shared preferences
+    // and displays on the screen
+    private void displayFirebaseRegId() {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+        String regId = pref.getString("regId", null);
+
+        Log.e(TAG, "Firebase reg id: " + regId);
+
+        if (TextUtils.isEmpty(regId))
+            Log.e(TAG, "Firebase reg id: Firebase Reg Id is not received yet! " );
+
+    }
+
+    private void updateRegIDonServer()
+    {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+        String regId = pref.getString("regId", null);
+        String regoldId = pref.getString("regoldId", null);
+
+        if(!regId.equals(regoldId))
+        {
+            FirebaseServerRegistration fbRegistration = new FirebaseServerRegistration
+                    (getApplicationContext(), mGlobalRetainer.get_grDriver(),regId);
+
+            fbRegistration.registerFBToken();
+
+
+
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("regoldId", regId);
+            editor.commit();
+        }
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -221,6 +288,15 @@ public class JobsBoard extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setInFront(true);
+        // register GCM registration complete receiver
+        LocalBroadcastManager.getInstance(GlobalRetainer.getAppContext()).registerReceiver(mRegistrationBroadcastReceiver, new IntentFilter(Config.REGISTRATION_COMPLETE));
+
+        // register new push message receiver
+        // by doing this, the activity will be notified each time a new message arrives
+        LocalBroadcastManager.getInstance(GlobalRetainer.getAppContext()).registerReceiver(mRegistrationBroadcastReceiver, new IntentFilter(Config.PUSH_NOTIFICATION));
+
+        // clear the notification area when the app is opened
+        NotificationUtils.clearNotifications(GlobalRetainer.getAppContext());
     }
 
 

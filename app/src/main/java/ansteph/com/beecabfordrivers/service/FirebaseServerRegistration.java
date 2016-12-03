@@ -1,6 +1,7 @@
 package ansteph.com.beecabfordrivers.service;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -26,6 +27,8 @@ import ansteph.com.beecabfordrivers.model.Driver;
  */
 public class FirebaseServerRegistration {
 
+    private static final String TAG = FirebaseServerRegistration.class.getSimpleName();
+
     private Context context;
 
     private Driver driver;
@@ -46,7 +49,8 @@ public class FirebaseServerRegistration {
 
     public  void registerFBToken()
     {
-
+// sending gcm token to server
+        Log.e(TAG, "sendRegistrationToServer: " + token);
 
         if(driver!= null)
         {

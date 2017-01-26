@@ -29,7 +29,7 @@ public class Credits extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), JobsBoard.class));
+                startActivity(new Intent(getApplicationContext(), ActionList.class));
             }
         });
     }

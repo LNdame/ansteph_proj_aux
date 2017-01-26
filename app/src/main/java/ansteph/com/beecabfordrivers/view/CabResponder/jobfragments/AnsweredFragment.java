@@ -3,6 +3,7 @@ package ansteph.com.beecabfordrivers.view.CabResponder.jobfragments;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,8 @@ public class AnsweredFragment extends Fragment {
 
     GlobalRetainer mGlobalRetainer;
     JobListViewAdapter peAdapter;
+
+    private Handler mAnsweredHandler = new Handler();
 
     public AnsweredFragment() {
         // Required empty public constructor
@@ -107,14 +110,20 @@ public class AnsweredFragment extends Fragment {
         }
 
 
-
+        mAnsweredHandler.postDelayed(runnableCheckAnswered,30000);
         return  rootView;
+    }
+
+    @Override
+    public void onPause() {
+       mAnsweredHandler.removeCallbacks(runnableCheckAnswered);
+        super.onPause();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        primeTimer();
+       // primeTimer();
     }
 
     private void UpdatePendingJobList(JSONArray jobArray)
@@ -127,6 +136,8 @@ public class AnsweredFragment extends Fragment {
                 JourneyRequest j=  new JourneyRequest(job.getInt("id"), job.getString("jr_pickup_add"),job.getString("jr_destination_add"),job.getString("jr_pickup_time"),String.valueOf(job.getInt("jr_proposed_fare"))
                         ,job.getString("jr_pickup_coord"),job.getString("jr_destination_coord"),job.getString("jr_tc_id"));
 
+
+               j.setAnCounterFare(String.valueOf(job.getInt("jre_counter_offer")));
                 SimpleDateFormat sdf = new SimpleDateFormat(Config.DATE_FORMAT);
 
                 try{
@@ -185,6 +196,24 @@ public class AnsweredFragment extends Fragment {
 
     }
 
+    private Runnable runnableCheckAnswered = new Runnable() {
+        @Override
+        public void run() {
+            try {
+
+
+                    retrievePendingJobs();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+            mAnsweredHandler.postDelayed(this, 30000);
+        }
+    };
 
 
     private void primeTimer()

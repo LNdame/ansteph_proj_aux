@@ -17,4 +17,11 @@ public class Constants {
     public static final int DESTINATION_GRAB=1;
     public static final int PICKUP_GRAB=2;
     public static final String ADDRESS="AddressPick";
+
+
+   //job related
+    public static int JOB_STATUS_PENDING =0;
+    public static int JOB_STATUS_ASSIGNED =1;
+    public static int JOB_STATUS_CONFIRMED_BY_DRIVER =2;
+    public static int JOB_STATUS_CLOSED =3;
 }

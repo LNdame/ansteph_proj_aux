@@ -55,6 +55,7 @@ import ansteph.com.beecabfordrivers.R;
 import ansteph.com.beecabfordrivers.app.Config;
 import ansteph.com.beecabfordrivers.app.GlobalRetainer;
 import ansteph.com.beecabfordrivers.model.JourneyRequest;
+import ansteph.com.beecabfordrivers.service.Constants;
 
 public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
 
@@ -117,11 +118,13 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
             pickup.setText(job.getPickupAddr());
             proposedFare.setText("R"+job.getProposedFare());
             putime.setText(job.getPickupTime());
-            lowBid.setText("R"+ (job.getProposedFare()!=null ||!job.getProposedFare().equals("null") ? job.getProposedFare():"0"));
 
+
+           lowBid.setText("R"+ (job.getProposedFare()!=null ||!job.getProposedFare().equals("null") ? job.getProposedFare():"0"));
+           // lowBid.setText("R"+job.getProposedFare());
             if(job.getTimeCreated()!=null) primeTimer(job.getTimeCreated());
 
-            setupLayout(extra.getInt(Config.FLAG_ORIGIN));
+           setupLayout(extra.getInt(Config.FLAG_ORIGIN));
         }
 
 
@@ -162,13 +165,37 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
             @Override
             public void onClick(View v) {
 
+                if(btnCancelOffer.getText().equals("Close Job")){
+
+                    try {
+                        closeJob(job);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    onBackPressed();
+                }
+
+
             }
         });
 
 
-
+        changeBackButton();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+
+
+    public void changeBackButton()
+    {
+        if(job.getStatus() == Constants.JOB_STATUS_CONFIRMED_BY_DRIVER)
+        {
+            btnCancelOffer.setText("Close Job");
+        }
+    }
+
+
 
 
     public void submitOffer()
@@ -207,6 +234,8 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
             @Override
             public void onFinish() {
                 txtTimeLeft.setText("all bets are off!");
+                lytOffer.setVisibility(View.GONE);
+                btnSubmit.setEnabled(false);
             }
         }.start();
     }
@@ -219,9 +248,22 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
           lytBiding.setVisibility(View.GONE);
             lytOffer.setVisibility(View.GONE);
             txtbid.setText(getString(R.string.bidtitle));
-            lowBid.setText("R"+job.getArFinalFare());
+
+
+            lowBid.setText("R"+(job.getArFinalFare()!=null  ? job.getArFinalFare():"0"));
+
             btnSubmit.setText("Confirm Pickup");
+        }else if (flag == Config.FLAG_PENLIST){
+
+            txtbid.setText(getString(R.string.bidtitle));
+
+
+            lowBid.setText("R"+(job.getAnCounterFare()!=null  ? job.getAnCounterFare():"0"));
+
+
         }
+
+
     }
 
     @Override
@@ -488,7 +530,51 @@ public class JobDetails extends AppCompatActivity implements OnMapReadyCallback{
         // Displaying the progress dialog
         final ProgressDialog loading = ProgressDialog.show(this, "Sending confirmation","You should start your engine in the meantime ", false, false);
 
-        String url = ""+String.format(Config.UPDATE_ASSIGN_JOUR_URL, j.getId(),"2");
+        String url = ""+String.format(Config.UPDATE_ASSIGN_JOUR_URL, j.getId(), String.valueOf(Constants.JOB_STATUS_CONFIRMED_BY_DRIVER));
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        try{
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean error = jsonResponse.getBoolean(Config.ERROR_RESPONSE);
+                            String serverMsg = jsonResponse.getString(Config.MSG_RESPONSE);
+                            if(!error){
+                                loading.dismiss();
+                                Toast.makeText(getApplicationContext(), serverMsg, Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(getApplicationContext(),JobsBoard.class));
+                            }
+                        }catch (JSONException e)
+                        {
+                            loading.dismiss();
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }){
+
+        };
+        RequestQueue requestQueue =  Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+
+    }
+
+
+    // UPDATE_ASSIGN_JOUR_URL
+    public void closeJob(final JourneyRequest j)throws JSONException{
+
+
+        // Displaying the progress dialog
+        final ProgressDialog loading = ProgressDialog.show(this, "Sending request","I sense a nice review coming your way", false, false);
+
+        String url = ""+String.format(Config.REQUEST_CLOSURE_URL, j.getId());
         StringRequest stringRequest = new StringRequest(Request.Method.PUT, url,
                 new Response.Listener<String>() {
                     @Override

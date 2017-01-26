@@ -80,8 +80,8 @@ public class JobsBoard extends AppCompatActivity {
         FirebaseMessaging.getInstance().subscribeToTopic("BeeCab");
         String token= FirebaseInstanceId.getInstance().getToken();
 
-        Toast.makeText(getApplicationContext(), token,Toast.LENGTH_LONG).show();
-        if(!token.isEmpty())
+
+       /* if(!token.isEmpty())
         {
 
             FirebaseServerRegistration fbRegistration = new FirebaseServerRegistration
@@ -89,7 +89,7 @@ public class JobsBoard extends AppCompatActivity {
 
             fbRegistration.registerFBToken();
 
-        }
+        }*/
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         adapterViewPager = new JobCatAdapter(getSupportFragmentManager());
@@ -98,12 +98,7 @@ public class JobsBoard extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-      /*  Fragment fragment = new BoardLangdingFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
-                .addToBackStack(BoardLangdingFragment.TAG);
-        fragmentTransaction.replace(R.id.container_body, fragment,BoardLangdingFragment.TAG);
-        fragmentTransaction.commit();*/
+
 
         final ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.viewAnimator);
 
@@ -157,12 +152,12 @@ public class JobsBoard extends AppCompatActivity {
                 {
                     String message = intent.getStringExtra("message");
 
-                    Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),  message, Toast.LENGTH_LONG).show();
                 }
 
             }
         };
-
+        updateRegIDonServer();
     }
 
 
@@ -185,7 +180,7 @@ public class JobsBoard extends AppCompatActivity {
         String regId = pref.getString("regId", null);
         String regoldId = pref.getString("regoldId", null);
 
-        if(!regId.equals(regoldId))
+        if(regId!=null)
         {
             FirebaseServerRegistration fbRegistration = new FirebaseServerRegistration
                     (getApplicationContext(), mGlobalRetainer.get_grDriver(),regId);
@@ -240,10 +235,7 @@ public class JobsBoard extends AppCompatActivity {
         if (id == R.id.action_logout) {
             sessionManager.logoutUser();
         }
-        if (id == R.id.action_profile) {
-           Intent i = new Intent(getApplicationContext(), JoRPickupBoard.class);
-           startActivity(i);
-        }
+
 
         return super.onOptionsItemSelected(item);
     }

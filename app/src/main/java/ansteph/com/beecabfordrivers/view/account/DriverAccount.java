@@ -49,7 +49,7 @@ public class DriverAccount extends AppCompatActivity {
 
 
         txtDriverID.setText(mGlobalRetainer.get_grDriver().getId());
-        txtCompany.setText(mGlobalRetainer.get_grDriver().getCompanyname());
+        txtCompany.setText(mGlobalRetainer.get_grDriver().getCompanyname().toUpperCase());
 
 
     }

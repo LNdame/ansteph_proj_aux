@@ -89,9 +89,16 @@ public class JobListViewAdapter extends ArrayAdapter<JourneyRequest> {
 
                 Intent i = new Intent(context, JobDetails.class);
                 i.putExtra("job",jr);
+
+                if(jr.getStatus()==2 ||jr.getStatus()==1){
                 i.putExtra(Config.FLAG_ORIGIN,Config.FLAG_ASSLIST);
+                }
+               else if(jr.getStatus()==0  ){
+                    i.putExtra(Config.FLAG_ORIGIN,Config.FLAG_PENLIST);
+                }
+
                 context.startActivity(i);
-               // Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show();
+
             }
         });
 

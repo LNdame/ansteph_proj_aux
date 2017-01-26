@@ -16,6 +16,7 @@ public class JourneyRequest implements Serializable {
     private String pickupTime;
     private String proposedFare;
     private String arFinalFare;
+    private String anCounterFare;
     private boolean callAllowed;
     private String pickupCoord;
     private String destinationCoord;
@@ -183,6 +184,14 @@ public class JourneyRequest implements Serializable {
         this.arFinalFare = arFinalFare;
     }
 
+
+    public String getAnCounterFare() {
+        return anCounterFare;
+    }
+
+    public void setAnCounterFare(String anCounterFare) {
+        this.anCounterFare = anCounterFare;
+    }
 
     public int getStatus() {
         return status;

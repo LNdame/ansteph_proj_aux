@@ -98,7 +98,11 @@
         </activity>
         <activity android:name=".testzone.GetImages">
         </activity>
-        <activity android:name=".view.extraAction.ActionList">
+        <activity android:name=".view.extraAction.ActionList"
+                  android:parentActivityName=".view.CabResponder.JobsBoard"  >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard"/>
         </activity>
         <activity
             android:name=".view.profile.Profile"
@@ -132,11 +136,11 @@
         <activity
             android:name=".referral.ReferralHistory"
             android:label="@string/title_activity_referral_history"
-            android:parentActivityName=".view.CabResponder.JobsBoard"
+            android:parentActivityName=".view.extraAction.ActionList"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard"/>
+                android:value="ansteph.com.beecabfordrivers.view.extraAction.ActionList"/>
         </activity>
         <activity
             android:name=".referral.SendReferral"
@@ -150,29 +154,43 @@
         <activity
             android:name=".view.account.DriverAccount"
             android:label="@string/title_activity_driver_account"
-            android:parentActivityName=".view.CabResponder.JobsBoard"
+            android:parentActivityName=".view.extraAction.ActionList"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard"/>
+                android:value="ansteph.com.beecabfordrivers.view.extraAction.ActionList"/>
         </activity>
         <activity
             android:name=".view.extraAction.Contact"
             android:label="@string/title_activity_contact"
-            android:parentActivityName=".view.CabResponder.JobsBoard"
+            android:parentActivityName=".view.extraAction.ActionList"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard"/>
+                android:value="ansteph.com.beecabfordrivers.view.extraAction.ActionList"/>
         </activity>
         <activity
             android:name=".view.extraAction.Credits"
             android:label="@string/title_activity_credits"
-            android:parentActivityName=".view.CabResponder.JobsBoard"
+            android:parentActivityName=".view.extraAction.ActionList"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ansteph.com.beecabfordrivers.view.CabResponder.JobsBoard"/>
+                android:value="ansteph.com.beecabfordrivers.view.extraAction.ActionList"/>
+        </activity>
+        <activity
+            android:name=".testzone.ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".view.registration.LostPassword"
+            android:label="@string/title_activity_lost_password"
+            android:parentActivityName=".view.registration.Login"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ansteph.com.beecabfordrivers.view.registration.Login"/>
         </activity>
     </application>
 

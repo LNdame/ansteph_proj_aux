@@ -65,6 +65,7 @@ android:paddingLeft="05dp"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
                 android:text="Pick up"
+                android:textColor="@color/hue_azure"
                 />
 
             <TextView
@@ -79,6 +80,7 @@ android:paddingLeft="05dp"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
                 android:text="Destination"
+                android:textColor="@color/green"
                 />
 
             <TextView
@@ -86,7 +88,7 @@ android:paddingLeft="05dp"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
                 android:textSize="12sp"
-                android:text="medui"
+                android:text="meduim"
                 android:id="@+id/txtDestination"/>
 
 

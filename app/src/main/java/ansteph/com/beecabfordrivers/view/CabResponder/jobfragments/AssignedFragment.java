@@ -3,6 +3,7 @@ package ansteph.com.beecabfordrivers.view.CabResponder.jobfragments;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,8 @@ public class AssignedFragment extends Fragment {
 
     GlobalRetainer mGlobalRetainer;
     JobListViewAdapter asAdapter;
+
+    private Handler mAssignedHandler = new Handler();
 
     public AssignedFragment() {
         // Required empty public constructor
@@ -105,15 +108,21 @@ public class AssignedFragment extends Fragment {
             e.printStackTrace();
         }
 
+        mAssignedHandler.postDelayed(runnableCheckAssigned, 30000);
 
         return rootView;
     }
 
+    @Override
+    public void onPause() {
+        mAssignedHandler.removeCallbacks(runnableCheckAssigned);
+        super.onPause();
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        primeTimer();
+        //primeTimer();
     }
 
     private void UpdateAssignJobList(JSONArray jobArray)
@@ -183,6 +192,24 @@ public class AssignedFragment extends Fragment {
 
     }
 
+
+    private Runnable runnableCheckAssigned = new Runnable() {
+        @Override
+        public void run() {
+            try {
+
+                    retrieveAssignedJobs();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+            mAssignedHandler.postDelayed(this, 30000);
+        }
+    };
 
 
     private void primeTimer()

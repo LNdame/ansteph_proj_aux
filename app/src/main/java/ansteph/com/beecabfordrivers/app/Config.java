@@ -38,7 +38,10 @@ public class Config {
     public static final String CREATE_CLIENT_REFERRAL_URL =DOMAIN+"v1/create_driver_referral";
     public static final String UPLOAD_URL_EN =DOMAIN+"v1/save_driver_profile_image";
   public static final String UPDATE_PROFILE_URL =DOMAIN+"v1/update_driver_profile";
+  public static final String REQUEST_CLOSURE_URL= DOMAIN+"v1/requestforjobclosure/%s";
 
+  public static final String LOST_PWD_URL =DOMAIN+"v1/lostpassworddriver/%s";
+  public static final String UPDATE_PWD_URL =DOMAIN+"v1/changepassworddriver/%s/%s";
 
     /****************************************************---SMS FLAGS---*************************************************************/
 

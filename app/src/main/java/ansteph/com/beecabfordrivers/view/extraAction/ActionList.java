@@ -67,5 +67,7 @@ public class ActionList extends AppCompatActivity {
             }
         });
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 }

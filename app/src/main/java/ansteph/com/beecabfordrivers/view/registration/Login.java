@@ -206,7 +206,8 @@ public class Login extends AppCompatActivity {
     public void retrievePwd (View view)
     {
 
-
+        Intent intent = new Intent(getApplicationContext(), LostPassword.class);
+        startActivity(intent);
     }
 
     @Override

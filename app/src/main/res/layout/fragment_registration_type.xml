@@ -4,7 +4,7 @@
              android:layout_height="match_parent"
               android:orientation="vertical"
               android:weightSum="4"
-              android:background="@color/colorAccent"
+              android:background="@color/white"
              >
 
     <!-- TODO: Update blank fragment layout -->
@@ -24,7 +24,7 @@
 
             <ImageButton
                 android:id="@+id/btnTypeCompany"
-                android:layout_width="160dp"
+                android:layout_width="170dp"
                 android:layout_height="146dp"
                 android:background="@null"
                 android:padding="25dp"
@@ -32,7 +32,7 @@
 
                 android:layout_margin="25dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/fleetsil"
+                android:src="@drawable/fleet_2"
 
                 />
 
@@ -45,7 +45,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/btnTypeCompany"
                 android:layout_gravity="right|center_vertical"
-                android:textColor="@color/white"
+                android:textColor="@color/colorAccent"
                 android:id="@+id/textView12"/>
         </RelativeLayout>
 
@@ -56,28 +56,31 @@
             android:layout_height="match_parent">
             <ImageButton
                 android:id="@+id/btnTypeFreelancer"
-                android:layout_width="160dp"
-                android:layout_height="136dp"
+                android:layout_width="190dp"
+                android:layout_height="106dp"
                 android:background="@null"
                 android:padding="25dp"
-                android:layout_margin="25dp"
-                android:layout_centerInParent="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/carsil"
+                android:src="@drawable/taxicar"
 
-                />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp"/>
 
 
             <TextView
                 android:text="Independent"
                 android:textStyle="bold"
+                android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/btnTypeFreelancer"
                 android:layout_gravity="right|center_vertical"
-                android:textColor="@color/white"
+                android:textColor="@color/colorAccent"
                 android:id="@+id/textView13"/>
         </RelativeLayout>
 
@@ -96,7 +99,7 @@
                   android:layout_height="wrap_content"
                   android:text="@string/pick_a_role"
                   android:layout_gravity="right|center_vertical"
-                  android:textColor="@color/white"
+                  android:textColor="@color/colorAccent"
                   android:drawableLeft="@mipmap/ic_vusi"/>
 
     </LinearLayout>
